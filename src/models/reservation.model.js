@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
-
+import { STATE } from "../models/reservation.enums.js";
 const ReservationSchema = new Schema({
   
     User:{ type: Schema.Types.ObjectId, ref: 'User' },
@@ -33,7 +33,14 @@ const ReservationSchema = new Schema({
         required: true,
         default: false,
     },
-    services: [{ type: Schema.Types.ObjectId, ref: 'Service', required: false }],
+
+    state: {
+        type: String,
+        enum: [STATE.PENDING, STATE.ACCEPTED,STATE.DECLINED],
+        default: STATE.PENDING,
+      },
+
+    services: [{ type: Schema.Types.Array, ref: 'Service', required: false, }],
   
     
     
