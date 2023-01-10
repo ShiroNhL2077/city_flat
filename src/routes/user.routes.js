@@ -47,6 +47,8 @@ import {
 import { 
    httpCreateReservation,
    httpGetMyReservations,
+   httpGetAllReservations,
+   httpGetOneReservation,
    httpDeclineReservation,
    httpAdminAcceptReservation,
    httpAdminDeclineReservation,
@@ -138,6 +140,10 @@ userRouter
    userRouter
    .route('/reservations/getall')
    .get(ensureUser,httpGetMyReservations);
+//admin get all reservations
+   userRouter
+   .route('/reservations/getallReservations')
+   .get(ensureAdmin,httpGetAllReservations);
 
    userRouter
    .route('/reservations/addReservation')
@@ -157,7 +163,9 @@ userRouter
    userRouter
    .route('/reservations/decline/:param')
    .delete(ensureUser,httpDeclineReservation);
-
+   userRouter
+   .route('/reservations/getOne/:param')
+   .get(ensureUser,httpGetOneReservation);
    userRouter
    .route('/reservations/accept/:param')
    .post(ensureAdmin,httpAdminAcceptReservation);

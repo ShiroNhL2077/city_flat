@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { notFoundError, errorHandler } from './middlewares/error_handler.js';
-
+import { handleSockets } from './utils/database/socket.handler.js';
 
 
 import morgan from 'morgan';
@@ -24,8 +24,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/img', express.static('public/images'));
 
 app.use(morgan('dev'));
-/* Using routers */
 
+/* Handling different sockets */
+handleSockets();
+
+/* Using routers */
 app.use('/user', userRouter);
 app.use('/appartments',appartmentRouter);
 
