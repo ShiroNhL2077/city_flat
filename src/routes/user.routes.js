@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from "../middlewares/multer_config.js";
+import passport from "passport";
 import {
 
    httpLoginUser,
@@ -173,6 +174,20 @@ userRouter
    userRouter
    .route('/reservations/adminDecline/:param')
    .delete(ensureAdmin,httpAdminDeclineReservation);
+
+
+   userRouter
+   .get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+  userRouter
+  .get('/api/sessions/oauth/google', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
 export { userRouter };
 
 

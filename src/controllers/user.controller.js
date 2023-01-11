@@ -228,6 +228,9 @@ export function httpResetPassword(req, res) {
       .catch((err) => res.status(500).json({ error: err.message }));
 }
 
+
+
+
 /**
  * A helper function that gets the user
  * with a given id or username or email
@@ -243,6 +246,7 @@ export async function findOneUserByFilter(userFilter) {
          { _id: userId },
          { email: userFilter },
          { name: userFilter },
+         { googleID: userFilter },
       ],
    });
 }
@@ -275,6 +279,17 @@ function emailFormat(email) {
 }
 
 
+export default function generateRandomPassword(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * 
+charactersLength));
+  }
+  return result;
+}
+
 export function usersListFormat(users) {
    let foundUsers = [];
    users.forEach((user) => {
@@ -296,6 +311,7 @@ export function userFormat(user) {
       isVerified: user.isVerified,
       img: user.img,
       reservations:user.reservations,
+      googleID:user.googleID,
 
    };
 }

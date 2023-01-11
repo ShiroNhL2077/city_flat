@@ -4,6 +4,12 @@ import { ROLE } from "../models/user.enums.js";
 
 
 const UserSchema = new Schema({
+    googleID:{
+        type: String,
+        required: false
+    },
+   
+
     name:{
         type: String,
         required: true
