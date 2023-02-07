@@ -1,0 +1,1188 @@
+{
+	"info": {
+		"_postman_id": "f5e4155b-b45b-4e71-8326-92659651d9f3",
+		"name": "CityFlat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n\r\n \"email\":\"echiferes@gmail.com\",\r\n \"password\":\"123456\"\r\n \r\n\r\n     \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/Camera Roll/cv_pic (3).jpeg"
+								},
+								{
+									"key": "name",
+									"value": "wakswizz",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "elyes.kabous@esprit.tn",
+									"type": "text"
+								},
+								{
+									"key": "number",
+									"value": "526188721",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "1996-05-18",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add reservation",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"appartment\":{\r\n\"name\":\"echiAppartment\",\r\n\"description\":\"wlc to echi appartment\",\r\n\"pricePerNight\":120,\r\n\"FromDate\":\"2023-02-11\",\r\n\"ToDate\":\"2023-02-22\",\r\n\"location\":\"hay nozha\",\r\n\"rooms\":4\r\n\r\n},\r\n\r\n\"description\":\"elyes reservation\",\r\n\"totalPrice\":1200,\r\n\"checkIn\":\"2023-03-15\",\r\n\"checkOut\":\"2023-03-20\",\r\n\r\n\"servicesFee\":200,\r\n\"nightsFee\":50,\r\n\"services\":[\r\n{\r\n\"name\":\"cleaning\"\r\n\r\n\r\n}\r\n\r\n\r\n]\r\n\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/reservations/addReservation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"reservations",
+								"addReservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/63ad8fa22a8eb802e85d082f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"63ad8fa22a8eb802e85d082f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhZDlmNmRjMjNkYmJkYTU4ZmFjODczIiwibmFtZSI6ImVseWVza2Fib3VzIiwiZW1haWwiOiJlbHllcy5rYWJvdXNAZ21haWwuY29tIiwicm9sZSI6IlVTRVIifSwiaWF0IjoxNjcyMzIyOTI5LCJleHAiOjE2NzI5Mjc3Mjl9.kP2w_hJC3hhD_pbGAKWPEezngWI_pqQplVUEqczC6FA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/getAllAppart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"getAllAppart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update one user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhZDlmNmRjMjNkYmJkYTU4ZmFjODczIiwibmFtZSI6ImVseWVza2Fib3VzIiwiZW1haWwiOiJlbHllcy5rYWJvdXNAZ21haWwuY29tIiwicm9sZSI6IlVTRVIifSwiaWF0IjoxNjcyMzIyOTI5LCJleHAiOjE2NzI5Mjc3Mjl9.kP2w_hJC3hhD_pbGAKWPEezngWI_pqQplVUEqczC6FA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/elyeskabous",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"elyeskabous"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhZDlmNmRjMjNkYmJkYTU4ZmFjODczIiwibmFtZSI6ImVseWVza2Fib3VzIiwiZW1haWwiOiJlbHllcy5rYWJvdXNAZ21haWwuY29tIiwicm9sZSI6IlVTRVIifSwiaWF0IjoxNjcyMzIyOTI5LCJleHAiOjE2NzI5Mjc3Mjl9.kP2w_hJC3hhD_pbGAKWPEezngWI_pqQplVUEqczC6FA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"name\":\"nader\",\r\n \"email\":\"nader.kabous@gmail.com\",\r\n \"number\":\"52618224\",\r\n \"password\":\"123456\",\r\n \"birthday\": \"1996-04-18\"\r\n\r\n     \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/elyeskabous",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"elyeskabous"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all my reservations",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhZDlmNmRjMjNkYmJkYTU4ZmFjODczIiwibmFtZSI6ImVseWVza2Fib3VzIiwiZW1haWwiOiJlbHllcy5rYWJvdXNAZ21haWwuY29tIiwicm9sZSI6IlVTRVIifSwiaWF0IjoxNjcyMzIyOTI5LCJleHAiOjE2NzI5Mjc3Mjl9.kP2w_hJC3hhD_pbGAKWPEezngWI_pqQplVUEqczC6FA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"name\":\"nader\",\r\n \"email\":\"nader.kabous@gmail.com\",\r\n \"number\":\"52618224\",\r\n \"password\":\"123456\",\r\n \"birthday\": \"1996-04-18\"\r\n\r\n     \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/elyeskabous",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"elyeskabous"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset user password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhZDlmNmRjMjNkYmJkYTU4ZmFjODczIiwibmFtZSI6ImVseWVza2Fib3VzIiwiZW1haWwiOiJlbHllcy5rYWJvdXNAZ21haWwuY29tIiwicm9sZSI6IlVTRVIifSwiaWF0IjoxNjcyMzIyOTI5LCJleHAiOjE2NzI5Mjc3Mjl9.kP2w_hJC3hhD_pbGAKWPEezngWI_pqQplVUEqczC6FA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n\"oldPassword\": \"123456\",\r\n\"newPassword\": \"1234567\"\r\n\r\n\r\n     \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/reset/feresEchi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"reset",
+								"feresEchi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password with email",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhZDlmNmRjMjNkYmJkYTU4ZmFjODczIiwibmFtZSI6ImVseWVza2Fib3VzIiwiZW1haWwiOiJlbHllcy5rYWJvdXNAZ21haWwuY29tIiwicm9sZSI6IlVTRVIifSwiaWF0IjoxNjcyMzIyOTI5LCJleHAiOjE2NzI5Mjc3Mjl9.kP2w_hJC3hhD_pbGAKWPEezngWI_pqQplVUEqczC6FA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/elyeskabous",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"elyeskabous"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST :/verify/{name}/{verification code}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"verificationCode\":1035\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/players/verify/vazymhubbs@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"players",
+								"verify",
+								"vazymhubbs@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resend verify email code GET :/verify/{email}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/user/verify/elyes.kabous@esprit.tn",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"verify",
+								"elyes.kabous@esprit.tn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "decline one reservation",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/user/reservations/decline/069211",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"reservations",
+								"decline",
+								"069211"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin accept reservation",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin Decline reservation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/user/reservations/adminDecline/:param",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"reservations",
+								"adminDecline",
+								":param"
+							],
+							"variable": [
+								{
+									"key": "param",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Get all reservations",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/user/reservations/getallReservations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"reservations",
+								"getallReservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOne reservation by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sigin with google",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "appartments",
+			"item": [
+				{
+					"name": "add apartments",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "echiAppartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "wlc to echi appartment",
+									"type": "text"
+								},
+								{
+									"key": "pricePerNight",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "FromDate",
+									"value": "2023-02-11",
+									"type": "text"
+								},
+								{
+									"key": "ToDate",
+									"value": "2023-02-22",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "hay nozha",
+									"type": "text"
+								},
+								{
+									"key": "rooms",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/wallpapers/wp10437697-cyberpunk-winter-wallpapers.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/appartments/addAppartment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"appartments",
+								"addAppartment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update one appartment by name",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "echiAppartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "wlc to echi appartment",
+									"type": "text"
+								},
+								{
+									"key": "pricePerNight",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "FromDate",
+									"value": "2023-02-11",
+									"type": "text"
+								},
+								{
+									"key": "ToDate",
+									"value": "2023-02-22",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "hay nozha",
+									"type": "text"
+								},
+								{
+									"key": "rooms",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/wallpapers/wp10437697-cyberpunk-winter-wallpapers.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/appartments/tokyo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"appartments",
+								"tokyo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete one appartment with name",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "echiAppartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "wlc to echi appartment",
+									"type": "text"
+								},
+								{
+									"key": "pricePerNight",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "FromDate",
+									"value": "2023-02-11",
+									"type": "text"
+								},
+								{
+									"key": "ToDate",
+									"value": "2023-02-22",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "hay nozha",
+									"type": "text"
+								},
+								{
+									"key": "rooms",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/wallpapers/wp10437697-cyberpunk-winter-wallpapers.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/appartments/new appartment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"appartments",
+								"new appartment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll appartments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:9090/appartments/getAllAppart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"appartments",
+								"getAllAppart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one appartment by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "services",
+			"item": [
+				{
+					"name": "add service",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "echiAppartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "wlc to echi appartment",
+									"type": "text"
+								},
+								{
+									"key": "pricePerNight",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "FromDate",
+									"value": "2023-02-11",
+									"type": "text"
+								},
+								{
+									"key": "ToDate",
+									"value": "2023-02-22",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "hay nozha",
+									"type": "text"
+								},
+								{
+									"key": "rooms",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/wallpapers/wp10437697-cyberpunk-winter-wallpapers.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/appartments/addAppartment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"appartments",
+								"addAppartment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll services",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:9090/appartments/getAllAppart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"appartments",
+								"getAllAppart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one appartment by name Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/user/services/cleaning",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"services",
+								"cleaning"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete one service with name",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "echiAppartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "wlc to echi appartment",
+									"type": "text"
+								},
+								{
+									"key": "pricePerNight",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "FromDate",
+									"value": "2023-02-11",
+									"type": "text"
+								},
+								{
+									"key": "ToDate",
+									"value": "2023-02-22",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "hay nozha",
+									"type": "text"
+								},
+								{
+									"key": "rooms",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/wallpapers/wp10437697-cyberpunk-winter-wallpapers.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/appartments/new appartment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"appartments",
+								"new appartment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update one service by name",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "echiAppartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "wlc to echi appartment",
+									"type": "text"
+								},
+								{
+									"key": "pricePerNight",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "FromDate",
+									"value": "2023-02-11",
+									"type": "text"
+								},
+								{
+									"key": "ToDate",
+									"value": "2023-02-22",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "hay nozha",
+									"type": "text"
+								},
+								{
+									"key": "rooms",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "img",
+									"type": "file",
+									"src": "/C:/Users/elyes/Pictures/wallpapers/wp10437697-cyberpunk-winter-wallpapers.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/appartments/tokyo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"appartments",
+								"tokyo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
