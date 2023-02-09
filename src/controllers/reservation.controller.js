@@ -375,6 +375,7 @@ function reservationFormat(reservation) {
       services: reservation.services,
       User: reservation.User,
       appartment: reservation.appartment,
+      transactionId:reservation.transactionId
    };
 }
 export function reservationListFormat(reservations) {

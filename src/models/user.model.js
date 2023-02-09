@@ -35,6 +35,10 @@ const UserSchema = new Schema({
         enum: [ROLE.ADMIN, ROLE.USER],
         default: ROLE.USER,
       },
+      stripeCustomerID:{
+        type: String,
+        required: false
+    },
   
     img:
     {

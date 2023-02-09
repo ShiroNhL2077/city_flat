@@ -312,6 +312,7 @@ export function userFormat(user) {
       img: user.img,
       reservations:user.reservations,
       googleID:user.googleID,
+      stripeCustomerID:user.stripeCustomerID
 
    };
 }

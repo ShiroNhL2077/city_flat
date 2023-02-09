@@ -34,6 +34,10 @@ const ReservationSchema = new Schema({
         default: false,
     },
 
+   transactionId:{
+        type:String,
+       
+    },
     state: {
         type: String,
         enum: [STATE.PENDING, STATE.ACCEPTED,STATE.DECLINED],
