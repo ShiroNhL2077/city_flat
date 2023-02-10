@@ -5,7 +5,8 @@ import userDb from '../models/user.model.js';
 import { validationResult } from 'express-validator';
 import { findOneUserByFilter, userFormat } from '../controllers/user.controller.js';
 import { sendReservationEmail, sendDeclineReservationEmail } from '../controllers/mailling.controller.js';
-
+import cardDb from '../models/card.model.js';
+import { createCustomer, addCard, generatePaymentIntent } from '../services/stripe.service.js';
 
 export function httpGetMyReservations(req, res) {
    console.log(req.user);
@@ -194,7 +195,7 @@ async function AddServicesToReservation(req, res, reservation, services) {
 
 export function httpDeclineReservation(req, res) {
    const user = req.user;
-   
+
    findOneReservationByFilter(req.params.param)
       .then((foundReservation) => {
          if (!foundReservation) {
@@ -338,11 +339,11 @@ export function httpAdminAcceptReservation(req, res) {
 //get all reservations
 export function httpGetAllReservations(req, res) {
    reservationDb
-       .find()
-       .then((reservations) => {
-           res.status(200).json(reservationListFormat(reservations));
-       })
-       .catch((err) => res.status(500).json({ error: err.message }));
+      .find()
+      .then((reservations) => {
+         res.status(200).json(reservationListFormat(reservations));
+      })
+      .catch((err) => res.status(500).json({ error: err.message }));
 }
 
 export async function findOneReservationByFilter(reservationFilter) {
@@ -375,7 +376,7 @@ function reservationFormat(reservation) {
       services: reservation.services,
       User: reservation.User,
       appartment: reservation.appartment,
-      transactionId:reservation.transactionId
+      transactionId: reservation.transactionId
    };
 }
 export function reservationListFormat(reservations) {
@@ -398,3 +399,104 @@ function generateRandomCode(length) {
 }
 
 
+export async function createReservation(req,res) {
+
+   findOneUserByFilter(req.user.id)
+      .then((foundUser) => {
+         if (!foundUser) {
+
+            return res.status(404).json({ error: 'User not found!' });
+         } else {
+           let model = {
+
+
+           };
+            if (!foundUser.stripeCustomerID) {
+               createCustomer(
+
+                  {
+                     "name": foundUser.name,
+                     "email": foundUser.email
+
+
+                  }
+
+               ).then((result) => {
+                foundUser.stripeCustomerID = result.id;
+                userDb
+                .findByIdAndUpdate(foundUser._id, foundUser)
+                model.stripeCustomerID= result.id;
+
+               }).catch((err) =>
+                  res.status(500).json({ error: err.message })
+               );
+             
+
+            }else{
+               model.stripeCustomerID=foundUser.stripeCustomerID;
+
+
+            }
+            //card  
+            cardDb.findOne({
+               customerId:model.stripeCustomerID,
+               cardNumber:req.params.card_Number,
+               cardExpMonth:req.params.card_ExpMonth,
+               cardExpYear:req.params.cardExp_Year,
+
+
+               },async function(err,cardDb){
+                   if(err){
+
+                     res.status(500).json({ error: err.message });
+                   }else{
+//no information found
+                  if(!cardDb){
+
+                 await  addCard({
+                  "card_Name":req.params.card_Name,
+                  "card_Number": req.params.card_Number,
+                  "card_ExpMonth":req.params.card_ExpMonth , 
+                  "card_ExpYear":req.params.card_ExpYear , 
+                 "card_CVC":req.params.card_CVC
+                  },(err,results)=>{
+
+                     if(err){
+                        res.status(500).json({ error: err.message });
+
+                     }
+
+                     if(results){
+
+                 const  cardModel = new  cardDb({
+
+                   cardId:results.card,
+                   cardName : req.params.card_Name,
+                   cardNumber: req.params.card_Number,
+                   cardExpMonth:req.params.card_ExpMonth,
+                   cardExpYear:req.params.card_ExpYear,
+                   cardCVC:req.params.card_CVC,
+                   customerId:
+
+
+                 })
+
+                     }
+                  }
+                 )
+
+                  }
+
+                   }
+
+               }
+            )
+
+
+         }
+      })
+      .catch((err) => res.status(500).json({ error: err.message }));
+
+
+
+}
