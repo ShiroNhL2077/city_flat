@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from "../middlewares/multer_config.js";
 import passport from "passport";
+import {stripeWebhookMiddleware} from "../middlewares/stripe_handler.js";
 import {
 
    httpLoginUser,
@@ -151,12 +152,12 @@ userRouter
    .route('/reservations/addReservation')
    .post(
       
-      body('description').isLength({ min: 5 }),
-      body('totalPrice'),
-      body('checkIn').isDate(),
-      body('checkOut').isDate(),
-      body('servicesFee'),
-      body('nightsFee'),
+      body('reservation.description').isLength({ min: 5 }),
+      body('reservation.totalPrice'),
+      body('reservation.checkIn').isDate(),
+      body('reservation.checkOut').isDate(),
+      body('reservation.servicesFee'),
+      body('reservation.nightsFee'),
       //ensureLoggedIn,
       ensureUser,
       httpCreateReservation
@@ -175,7 +176,33 @@ userRouter
    userRouter
    .route('/reservations/adminDecline/:param')
    .delete(ensureAdmin,httpAdminDeclineReservation);
-
+   userRouter
+   .route("/webhooks/stripe")
+   .post(stripeWebhookMiddleware,(req, res) => {
+      const event = req.stripeEvent;
+    
+      switch (event.type) {
+        case 'payment_intent.succeeded':
+          // Handle payment succeeded event
+          break;
+    
+        case 'payment_intent.payment_failed':
+          // Handle payment failed event
+          break;
+    
+        case 'payment_intent.amount_capturable_updated':
+          // Handle amount capturable updated event
+          break;
+    
+        case 'payment_intent.canceled':
+          // Handle payment canceled event
+          break;
+    
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+    
+      res.sendStatus(200);});
 
    userRouter
    .get('/auth/google',

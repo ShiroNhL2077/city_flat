@@ -39,6 +39,8 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
+
+    cards: [{ type: Schema.Types.ObjectId, ref: 'Card' }],
   
     img:
     {

@@ -4,40 +4,10 @@ const { Schema, model } = mongoose;
 
 
 const CardSchema = new Schema({
-    cardName:{
-        type: String,
-        required: false
-    },
-   
-
-    cardNumber:{
-        type: String,
-        required: true,
-        unique:true
-    },
-   
-    cardExpYear: { type: String, 
-        required: true},
-
-        cardExpMonth: { type: String, 
-            required: true},
-
-    cardCVC: {type: String, 
-        required:true,
-        },
-
-    customerId:{
-        type: String,
-        
-        required:true
-    },
-   
-    cardId: {
-        type: String,
-        
-        required:true
-
-    }
+    number: { type: String, required: false },
+    exp_month: { type: String, required: false },
+    exp_year: { type: String, required: false },
+    cvc: { type: String, required: false }
 
    
     
@@ -48,4 +18,4 @@ const CardSchema = new Schema({
 
 
 
-export default model("CustomerCards", CardSchema);
+export default model("Card", CardSchema);

@@ -9,7 +9,7 @@ const ReservationSchema = new Schema({
    
     totalPrice: {
         type: Number,
-        required: true
+        required: false
     },
 
     checkIn: { type: Date,required: true },

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Stripe from 'stripe';
 import reservationDb from '../models/reservation.model.js';
 import appartmentDb from '../models/appartment.model.js';
 import userDb from '../models/user.model.js';
@@ -6,8 +7,11 @@ import { validationResult } from 'express-validator';
 import { findOneUserByFilter, userFormat } from '../controllers/user.controller.js';
 import { sendReservationEmail, sendDeclineReservationEmail } from '../controllers/mailling.controller.js';
 import cardDb from '../models/card.model.js';
-import { createCustomer, addCard, generatePaymentIntent } from '../services/stripe.service.js';
+import { createCustomer, addCard, httpMakePayment } from '../controllers/stripePayment.controller.js';
 
+const stripe = new Stripe("sk_test_51MZauqFlpJLwRbEx8TSXStilf8bmdDyJaI1WEQsDA0dbswiKB8VDn838lRoYZcL0Ax8b1e6txTB6Hvlb4qgBl5hm00x6SpHhZW", {
+   apiVersion: '2020-08-27',
+});
 export function httpGetMyReservations(req, res) {
    console.log(req.user);
    findOneUserByFilter(req.user.id)
@@ -48,84 +52,168 @@ export function httpGetOneReservation(req, res) {
       .catch((err) => res.status(500).json({ error: err.message }));
 }
 
+// export function httpCreateReservation(req, res) {
+//    if (!validationResult(req).isEmpty()) {
+//       res.status(400).json({ error: validationResult(req).array() });
+//    } else {
+//       const user = req.user;
+//       const newReservation = req.body;
+//       console.log(req.body.services);
+//       userDb
+//          .findOne({ email: user.email })
+//          .then((founduser) => {
+//             if (!founduser) {
+//                return res.status(404).json({
+//                   message: 'User not found!',
+//                });
+//             } else {
+
+//                const appartment = req.body.appartment;
+//                console.log(founduser);
+//                newReservation.User = founduser;
+
+//                appartmentDb
+//                   .findOne({ name: appartment.name })
+//                   .then((appartment) => {
+//                      if (!appartment) {
+//                         return res.status(404).json({
+//                            message: 'Appartment not found!',
+//                         });
+//                      } else {
+
+
+
+//                         newReservation.appartment = appartment;
+
+//                         newReservation.code = generateRandomCode(6);
+
+//                         reservationDb
+//                            .create(newReservation)
+//                            .then((result) => {
+//                               findOneReservationByFilter(result._id)
+//                                  .then((register) => {
+
+//                                     res.status(201).json(reservationFormat(register));
+
+
+
+
+//                                  }
+
+
+
+
+
+//                                  )
+//                                  .catch((err) =>
+//                                     res.status(500).json({ error: err.message })
+//                                  );
+
+
+//                            })
+//                            .catch((err) => res.status(500).json({ error: err.message }));
+
+
+
+
+//                      }
+//                   })
+//                   .catch((err) => res.status(500).json({ error: err.message }));
+
+
+
+//             }
+//          })
+//          .catch((err) => res.status(500).json({ error: err.message }));
+
+
+
+//    }
+// }
+
+
+
 export function httpCreateReservation(req, res) {
    if (!validationResult(req).isEmpty()) {
-      res.status(400).json({ error: validationResult(req).array() });
-   } else {
-      const user = req.user;
-      const newReservation = req.body;
-      console.log(req.body.services);
-      userDb
-         .findOne({ email: user.email })
-         .then((founduser) => {
-            if (!founduser) {
-               return res.status(404).json({
-                  message: 'User not found!',
-               });
-            } else {
+      return res.status(400).json({ error: validationResult(req).array() });
+   }
 
-               const appartment = req.body.appartment;
-               console.log(founduser);
-               newReservation.User = founduser;
+   const user = req.user;
+   const newReservation = req.body.reservation;
 
-               appartmentDb
-                  .findOne({ name: appartment.name })
-                  .then((appartment) => {
-                     if (!appartment) {
-                        return res.status(404).json({
-                           message: 'Appartment not found!',
-                        });
-                     } else {
+   userDb.findOne({ email: user.email })
+      .then((foundUser) => {
+         if (!foundUser) {
+            return res.status(404).json({ message: 'User not found!' });
+         }
 
+         const appartment = req.body.reservation.appartment;
+         newReservation.User = foundUser;
 
+         appartmentDb.findOne({ name: appartment.name })
+            .then((foundAppartment) => {
+               if (!foundAppartment) {
+                  return res.status(404).json({ message: 'Appartment not found!' });
+               }
 
-                        newReservation.appartment = appartment;
+               newReservation.appartment = foundAppartment;
+               newReservation.code = generateRandomCode(6);
 
-                        newReservation.code = generateRandomCode(6);
+               // Call payment function to make payment
+               const paymentAmount = calculateReservationPrice(newReservation);
 
-                        reservationDb
-                           .create(newReservation)
-                           .then((result) => {
-                              findOneReservationByFilter(result._id)
-                                 .then((register) => {
+               createCustomer(foundUser.id, foundUser.email)
+                  .then((customer) => {
+                     const cardDetails = req.body.card;
+                     console.log(cardDetails);
 
-                                    res.status(201).json(reservationFormat(register));
-
-
-
-
-                                 }
-
-
-
-
-
-                                 )
-                                 .catch((err) =>
-                                    res.status(500).json({ error: err.message })
-                                 );
-
-
-                           })
-                           .catch((err) => res.status(500).json({ error: err.message }));
-
-
-
-
+                     if (!cardDetails.number || !cardDetails.exp_month || !cardDetails.exp_year || !cardDetails.cvc) {
+                        return res.status(400).json({ error: 'Card details are incomplete' });
                      }
-                  })
-                  .catch((err) => res.status(500).json({ error: err.message }));
 
+                     stripe.tokens.create(
+                        {
+                           card: {
+                              number: cardDetails.number,
+                              exp_month: cardDetails.exp_month,
+                              exp_year: cardDetails.exp_year,
+                              cvc: cardDetails.cvc,
+                           },
+                        },
+                        function (err, token) {
+                           console.log(token);
+                           if (err) {
+                              return res.status(500).json({ error: err.message });
+                           }
 
+                           addCard(customer.id, token.id)
+                              .then((card) => {
+                                 httpMakePayment(req, res, paymentAmount, customer.id, newReservation._id)
+                                    .then((paymentIntent) => {
+                                       // Update reservation with payment status
+                                       //newReservation.paymentStatus = 'paid';
+                                       //newReservation.paymentIntentId = paymentIntent.id;
 
-            }
+                                       reservationDb.create(newReservation)
+                                          .then((result) => {
+                                             findOneReservationByFilter(result._id)
+                                                
+                                          })
+                                          .catch((err) => res.status(500).json({ error: err.message }));
+                                    })
+                                    .catch((error) => res.status(500).json({ error: error.message }));
+                              })
+                              .catch((error) => res.status(500).json({ error: error.message }));
+                           }
+                        );
+                     })
+                     .catch((error) => res.status(500).json({ error: error.message }));
+               })
+               .catch((err) => res.status(500).json({ error: err.message }));
          })
          .catch((err) => res.status(500).json({ error: err.message }));
-
-
-
-   }
 }
+
 
 
 async function AddServicesToReservation(req, res, reservation, services) {
@@ -399,104 +487,13 @@ function generateRandomCode(length) {
 }
 
 
-export async function createReservation(req,res) {
-
-   findOneUserByFilter(req.user.id)
-      .then((foundUser) => {
-         if (!foundUser) {
-
-            return res.status(404).json({ error: 'User not found!' });
-         } else {
-           let model = {
 
 
-           };
-            if (!foundUser.stripeCustomerID) {
-               createCustomer(
-
-                  {
-                     "name": foundUser.name,
-                     "email": foundUser.email
-
-
-                  }
-
-               ).then((result) => {
-                foundUser.stripeCustomerID = result.id;
-                userDb
-                .findByIdAndUpdate(foundUser._id, foundUser)
-                model.stripeCustomerID= result.id;
-
-               }).catch((err) =>
-                  res.status(500).json({ error: err.message })
-               );
-             
-
-            }else{
-               model.stripeCustomerID=foundUser.stripeCustomerID;
-
-
-            }
-            //card  
-            cardDb.findOne({
-               customerId:model.stripeCustomerID,
-               cardNumber:req.params.card_Number,
-               cardExpMonth:req.params.card_ExpMonth,
-               cardExpYear:req.params.cardExp_Year,
-
-
-               },async function(err,cardDb){
-                   if(err){
-
-                     res.status(500).json({ error: err.message });
-                   }else{
-//no information found
-                  if(!cardDb){
-
-                 await  addCard({
-                  "card_Name":req.params.card_Name,
-                  "card_Number": req.params.card_Number,
-                  "card_ExpMonth":req.params.card_ExpMonth , 
-                  "card_ExpYear":req.params.card_ExpYear , 
-                 "card_CVC":req.params.card_CVC
-                  },(err,results)=>{
-
-                     if(err){
-                        res.status(500).json({ error: err.message });
-
-                     }
-
-                     if(results){
-
-                 const  cardModel = new  cardDb({
-
-                   cardId:results.card,
-                   cardName : req.params.card_Name,
-                   cardNumber: req.params.card_Number,
-                   cardExpMonth:req.params.card_ExpMonth,
-                   cardExpYear:req.params.card_ExpYear,
-                   cardCVC:req.params.card_CVC,
-                   customerId:
-
-
-                 })
-
-                     }
-                  }
-                 )
-
-                  }
-
-                   }
-
-               }
-            )
-
-
-         }
-      })
-      .catch((err) => res.status(500).json({ error: err.message }));
-
-
-
-}
+function calculateReservationPrice(reservation) {
+   const { checkIn, checkOut, appartment } = reservation;
+ 
+   const timeDiff = Math.abs(new Date(checkOut) - new Date(checkIn));
+   const totalNights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+ 
+   return totalNights * appartment.pricePerNight;
+ }

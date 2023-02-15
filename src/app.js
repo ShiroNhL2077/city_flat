@@ -12,7 +12,7 @@ import morgan from 'morgan';
 
 import { userRouter } from './routes/user.routes.js';
 import { appartmentRouter } from './routes/appartment.routes.js';
-import{stripeRouter} from './routes/stripe.js';
+
 
 
 /* Creating express app */
@@ -53,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 /* Using routers */
 app.use('/user', userRouter);
-app.use('/Onlinepayment',stripeRouter);
+
 app.use('/appartments',appartmentRouter);
 
 
