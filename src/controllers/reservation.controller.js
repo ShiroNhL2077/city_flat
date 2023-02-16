@@ -7,9 +7,13 @@ import { validationResult } from 'express-validator';
 import { findOneUserByFilter, userFormat } from '../controllers/user.controller.js';
 import { sendReservationEmail, sendDeclineReservationEmail } from '../controllers/mailling.controller.js';
 import cardDb from '../models/card.model.js';
-import { createCustomer, addCard, httpMakePayment } from '../controllers/stripePayment.controller.js';
+import { createCustomer, addCard, httpMakePayment, createCheckoutSession } from '../controllers/stripePayment.controller.js';
+import dotenv from 'dotenv';
 
-const stripe = new Stripe("sk_test_51MZauqFlpJLwRbEx8TSXStilf8bmdDyJaI1WEQsDA0dbswiKB8VDn838lRoYZcL0Ax8b1e6txTB6Hvlb4qgBl5hm00x6SpHhZW", {
+/* Accessing .env content */
+dotenv.config();
+
+const stripe = new Stripe(process.env.SECRET_KEY, {
    apiVersion: '2020-08-27',
 });
 export function httpGetMyReservations(req, res) {
@@ -52,84 +56,7 @@ export function httpGetOneReservation(req, res) {
       .catch((err) => res.status(500).json({ error: err.message }));
 }
 
-// export function httpCreateReservation(req, res) {
-//    if (!validationResult(req).isEmpty()) {
-//       res.status(400).json({ error: validationResult(req).array() });
-//    } else {
-//       const user = req.user;
-//       const newReservation = req.body;
-//       console.log(req.body.services);
-//       userDb
-//          .findOne({ email: user.email })
-//          .then((founduser) => {
-//             if (!founduser) {
-//                return res.status(404).json({
-//                   message: 'User not found!',
-//                });
-//             } else {
 
-//                const appartment = req.body.appartment;
-//                console.log(founduser);
-//                newReservation.User = founduser;
-
-//                appartmentDb
-//                   .findOne({ name: appartment.name })
-//                   .then((appartment) => {
-//                      if (!appartment) {
-//                         return res.status(404).json({
-//                            message: 'Appartment not found!',
-//                         });
-//                      } else {
-
-
-
-//                         newReservation.appartment = appartment;
-
-//                         newReservation.code = generateRandomCode(6);
-
-//                         reservationDb
-//                            .create(newReservation)
-//                            .then((result) => {
-//                               findOneReservationByFilter(result._id)
-//                                  .then((register) => {
-
-//                                     res.status(201).json(reservationFormat(register));
-
-
-
-
-//                                  }
-
-
-
-
-
-//                                  )
-//                                  .catch((err) =>
-//                                     res.status(500).json({ error: err.message })
-//                                  );
-
-
-//                            })
-//                            .catch((err) => res.status(500).json({ error: err.message }));
-
-
-
-
-//                      }
-//                   })
-//                   .catch((err) => res.status(500).json({ error: err.message }));
-
-
-
-//             }
-//          })
-//          .catch((err) => res.status(500).json({ error: err.message }));
-
-
-
-//    }
-// }
 
 
 
@@ -140,6 +67,7 @@ export function httpCreateReservation(req, res) {
 
    const user = req.user;
    const newReservation = req.body.reservation;
+   const paymentMethodId = req.body.paymentMethod.id; // add this line to get the payment method ID
 
    userDb.findOne({ email: user.email })
       .then((foundUser) => {
@@ -164,8 +92,8 @@ export function httpCreateReservation(req, res) {
 
                createCustomer(foundUser.id, foundUser.email)
                   .then((customer) => {
-                     const cardDetails = req.body.card;
-                     console.log(cardDetails);
+                     const cardDetails = req.body.paymentMethod.card;
+                     console.log("card details : " + cardDetails.cvc);
 
                      if (!cardDetails.number || !cardDetails.exp_month || !cardDetails.exp_year || !cardDetails.cvc) {
                         return res.status(400).json({ error: 'Card details are incomplete' });
@@ -173,7 +101,9 @@ export function httpCreateReservation(req, res) {
 
                      stripe.tokens.create(
                         {
+                           
                            card: {
+                              
                               number: cardDetails.number,
                               exp_month: cardDetails.exp_month,
                               exp_year: cardDetails.exp_year,
@@ -181,38 +111,87 @@ export function httpCreateReservation(req, res) {
                            },
                         },
                         function (err, token) {
-                           console.log(token);
+
                            if (err) {
                               return res.status(500).json({ error: err.message });
                            }
 
                            addCard(customer.id, token.id)
                               .then((card) => {
-                                 httpMakePayment(req, res, paymentAmount, customer.id, newReservation._id)
-                                    .then((paymentIntent) => {
-                                       // Update reservation with payment status
-                                       //newReservation.paymentStatus = 'paid';
-                                       //newReservation.paymentIntentId = paymentIntent.id;
+                                 
+                                 // Check if the card is not null before creating the payment intent
+                                 if (card) {
 
-                                       reservationDb.create(newReservation)
-                                          .then((result) => {
-                                             findOneReservationByFilter(result._id)
-                                                
-                                          })
-                                          .catch((err) => res.status(500).json({ error: err.message }));
-                                    })
-                                    .catch((error) => res.status(500).json({ error: error.message }));
+                                    stripe.paymentMethods.create({
+                                       type: 'card',
+                                       card: {
+                                          number: cardDetails.number,
+                                          exp_month: cardDetails.exp_month,
+                                          exp_year: cardDetails.exp_year,
+                                          cvc: cardDetails.cvc,
+                                       },
+                                    },
+                                    function (err, payment_method) {
+
+                                       const paymentMethod = {
+                                          id: 'pm_1McAAnFlpJLwRbExfkTaCi5Y',
+                                          card: {
+                                            number: '4242424242424242',
+                                            exp_month: '12',
+                                            exp_year: '24',
+                                            cvc: '123'
+                                          },
+                                          billing_details: {
+                                            name: 'John Doe',
+                                            email: 'john.doe@example.com',
+                                            address: {
+                                              line1: '123 Main St',
+                                              line2: '',
+                                              city: 'Anytown',
+                                              state: 'CA',
+                                              postal_code: '12345',
+                                              country: 'US'
+                                            }
+                                          }
+                                        };
+
+                                       httpMakePayment(req, res, paymentAmount, customer.id, newReservation._id, paymentMethod.id)
+                                       .then((paymentIntent) => {
+
+                                          // Update reservation with payment status
+                                          //newReservation.paymentStatus = 'paid';
+                                          //newReservation.paymentIntentId = paymentIntent.id;
+                                          createCheckoutSession(customer.id, newReservation, paymentAmount); // pass the paymentMethodId to the function
+
+                                          reservationDb.create(newReservation)
+                                             .then((result) => {
+                                                findOneReservationByFilter(result._id)
+
+                                             })
+                                             .catch((err) => res.status(500).json({ error: err.message }));
+                                       })
+                                       .catch((error) => res.status(500).json({ error: error.message }));
+
+                                    }
+                                    
+                                    );
+
+                                   
+                                 } else {
+                                    return res.status(400).json({ error: 'No card found for the customer.' });
+                                 }
                               })
                               .catch((error) => res.status(500).json({ error: error.message }));
-                           }
-                        );
-                     })
-                     .catch((error) => res.status(500).json({ error: error.message }));
-               })
-               .catch((err) => res.status(500).json({ error: err.message }));
-         })
-         .catch((err) => res.status(500).json({ error: err.message }));
+                        }
+                     );
+                  })
+                  .catch((error) => res.status(500).json({ error: error.message }));
+            })
+            .catch((err) => res.status(500).json({ error: err.message }));
+      })
+      .catch((err) => res.status(500).json({ error: err.message }));
 }
+
 
 
 
@@ -491,9 +470,9 @@ function generateRandomCode(length) {
 
 function calculateReservationPrice(reservation) {
    const { checkIn, checkOut, appartment } = reservation;
- 
+
    const timeDiff = Math.abs(new Date(checkOut) - new Date(checkIn));
    const totalNights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
- 
+
    return totalNights * appartment.pricePerNight;
- }
+}

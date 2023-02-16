@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 /* Accessing .env content */
 dotenv.config();
 
-const stripe = new Stripe("sk_test_51MZauqFlpJLwRbEx8TSXStilf8bmdDyJaI1WEQsDA0dbswiKB8VDn838lRoYZcL0Ax8b1e6txTB6Hvlb4qgBl5hm00x6SpHhZW", {
+const stripe = new Stripe(process.env.SECRET_KEY, {
   apiVersion: '2020-08-27',
 });
 
@@ -31,36 +31,77 @@ export async function addCard(customerId, token) {
   return newCard;
 }
 
-export async function createPaymentIntent(amount, customerId, metadata) {
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount,
-    currency: 'usd',
-    customer: customerId,
-    metadata: metadata,
-  });
-  return paymentIntent;
+export async function createPaymentIntent(amount, customerId, paymentMethod, metadata) {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'usd',
+      customer: customerId,
+      payment_method: paymentMethod,
+      metadata: metadata,
+    });
+    return paymentIntent;
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
 }
 
-export async function httpMakePayment(req, res, amount, customerId, reservationId) {
-   // const cardId = req.body.cardId;
-  
-    try {
-     // const card = await Card.findById(cardId);
-      const customer = await stripe.customers.retrieve(customerId);
-  
-      const paymentIntent = await createPaymentIntent(
-        amount * 100, // Stripe requires the amount to be in cents
-        customer.id,
-        {
-          reservationId: reservationId,
-        }
-      );
-  
-      res.status(200).json({
-        clientSecret: paymentIntent.client_secret,
-      });
-    } catch (error) {
-      console.error(error);
-      //res.status(500).json({ error: error.message });
-    }
+export async function httpMakePayment(req, res, amount, customerId, reservationId,tokenid) {
+ 
+
+  try {
+    const paymentIntent = await createPaymentIntent(
+      amount * 100, // Stripe requires the amount to be in cents
+      customerId,
+      String(tokenid),
+      {
+        reservationId: reservationId,
+      }
+    );
+
+    res.status(200).json({
+      clientSecret: paymentIntent.client_secret,
+      
+    });
+    return paymentIntent;
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
+}
+
+
+export async function createCheckoutSession(
+  customerId,
+  reservation,
+  paymentAmount
+) {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      customer: customerId,
+      client_reference_id: String(reservation._id),
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `Reservation for ${reservation.appartment.name}`,
+            },
+            unit_amount: paymentAmount * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'https://example.com/success',
+      cancel_url: 'https://example.com/cancel',
+    });
+
+    return session;
+  } catch (error) {
+    console.error(error.message);
+    throw new Error(error);
+  }
+}
