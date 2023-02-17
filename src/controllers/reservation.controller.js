@@ -5,8 +5,8 @@ import appartmentDb from '../models/appartment.model.js';
 import userDb from '../models/user.model.js';
 import { validationResult } from 'express-validator';
 import { findOneUserByFilter, userFormat } from '../controllers/user.controller.js';
-import { sendReservationEmail, sendDeclineReservationEmail } from '../controllers/mailling.controller.js';
-import cardDb from '../models/card.model.js';
+import { sendReservationEmail, sendDeclineReservationEmail ,sendUserReservationEmail} from '../controllers/mailling.controller.js';
+
 import { createCustomer, addCard, httpMakePayment, createCheckoutSession } from '../controllers/stripePayment.controller.js';
 import dotenv from 'dotenv';
 
@@ -67,7 +67,7 @@ export function httpCreateReservation(req, res) {
 
    const user = req.user;
    const newReservation = req.body.reservation;
-   const paymentMethodId = req.body.paymentMethod.id; // add this line to get the payment method ID
+
 
    userDb.findOne({ email: user.email })
       .then((foundUser) => {
@@ -88,12 +88,12 @@ export function httpCreateReservation(req, res) {
                newReservation.code = generateRandomCode(6);
 
                // Call payment function to make payment
-               const paymentAmount = calculateReservationPrice(newReservation);
-
-               createCustomer(foundUser.id, foundUser.email)
-                  .then((customer) => {
+               const paymentAmount = calculateReservationTotalFee(newReservation);
+               newReservation.totalPrice=paymentAmount;
+               createCustomer(foundUser)
+                  .then((customerId) => {
                      const cardDetails = req.body.paymentMethod.card;
-                     console.log("card details : " + cardDetails.cvc);
+
 
                      if (!cardDetails.number || !cardDetails.exp_month || !cardDetails.exp_year || !cardDetails.cvc) {
                         return res.status(400).json({ error: 'Card details are incomplete' });
@@ -101,9 +101,9 @@ export function httpCreateReservation(req, res) {
 
                      stripe.tokens.create(
                         {
-                           
+
                            card: {
-                              
+
                               number: cardDetails.number,
                               exp_month: cardDetails.exp_month,
                               exp_year: cardDetails.exp_year,
@@ -115,10 +115,10 @@ export function httpCreateReservation(req, res) {
                            if (err) {
                               return res.status(500).json({ error: err.message });
                            }
-
-                           addCard(customer.id, token.id)
+                           console.log(token);
+                           addCard(customerId, token.id)
                               .then((card) => {
-                                 
+                                 console.log(card);
                                  // Check if the card is not null before creating the payment intent
                                  if (card) {
 
@@ -130,53 +130,44 @@ export function httpCreateReservation(req, res) {
                                           exp_year: cardDetails.exp_year,
                                           cvc: cardDetails.cvc,
                                        },
+
                                     },
-                                    function (err, payment_method) {
 
-                                       const paymentMethod = {
-                                          id: 'pm_1McAAnFlpJLwRbExfkTaCi5Y',
-                                          card: {
-                                            number: '4242424242424242',
-                                            exp_month: '12',
-                                            exp_year: '24',
-                                            cvc: '123'
-                                          },
-                                          billing_details: {
-                                            name: 'John Doe',
-                                            email: 'john.doe@example.com',
-                                            address: {
-                                              line1: '123 Main St',
-                                              line2: '',
-                                              city: 'Anytown',
-                                              state: 'CA',
-                                              postal_code: '12345',
-                                              country: 'US'
-                                            }
-                                          }
-                                        };
 
-                                       httpMakePayment(req, res, paymentAmount, customer.id, newReservation._id, paymentMethod.id)
-                                       .then((paymentIntent) => {
+                                    ).then((paymentMethod) => {
 
-                                          // Update reservation with payment status
-                                          //newReservation.paymentStatus = 'paid';
-                                          //newReservation.paymentIntentId = paymentIntent.id;
-                                          createCheckoutSession(customer.id, newReservation, paymentAmount); // pass the paymentMethodId to the function
+                                       stripe.paymentMethods.attach(paymentMethod.id, {
+                                          customer: customerId,
+                                       }).then((payment_method) => {
 
-                                          reservationDb.create(newReservation)
-                                             .then((result) => {
-                                                findOneReservationByFilter(result._id)
+                                          httpMakePayment(req, res, newReservation.totalPrice, customerId, newReservation._id, paymentMethod.id)
+                                             .then((paymentIntent) => {
 
+                                                // Update reservation with payment status
+                                                //newReservation.paymentStatus = 'paid';
+                                                //newReservation.paymentIntentId = paymentIntent.id;
+                                                //  createCheckoutSession(customer.id, newReservation, paymentAmount); // pass the paymentMethodId to the function
+
+                                                reservationDb.create(newReservation)
+                                                   .then((result) => {
+                                                      findOneReservationByFilter(result._id)
+                                                      sendUserReservationEmail(foundUser,newReservation,newReservation.totalPrice);
+                                                   })
+                                                   .catch((err) => res.status(500).json({ error: err.message }));
                                              })
-                                             .catch((err) => res.status(500).json({ error: err.message }));
-                                       })
-                                       .catch((error) => res.status(500).json({ error: error.message }));
+                                             .catch((error) => res.status(500).json({ error: error.message }));
 
-                                    }
-                                    
-                                    );
 
-                                   
+
+                                       });
+
+
+
+
+
+                                    })
+
+
                                  } else {
                                     return res.status(400).json({ error: 'No card found for the customer.' });
                                  }
@@ -468,11 +459,16 @@ function generateRandomCode(length) {
 
 
 
-function calculateReservationPrice(reservation) {
-   const { checkIn, checkOut, appartment } = reservation;
-
-   const timeDiff = Math.abs(new Date(checkOut) - new Date(checkIn));
-   const totalNights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-   return totalNights * appartment.pricePerNight;
-}
+function calculateReservationTotalFee(reservation) {
+   const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+ 
+   const checkIn = new Date(reservation.checkIn);
+   const checkOut = new Date(reservation.checkOut);
+   const nights = Math.round((checkOut - checkIn) / millisecondsPerDay); // Number of nights
+ 
+   const nightsFee = nights * reservation.nightsFee;
+   const servicesFee = nights * reservation.servicesFee;
+   const totalPrice = nightsFee + servicesFee;
+ 
+   return totalPrice;
+ }

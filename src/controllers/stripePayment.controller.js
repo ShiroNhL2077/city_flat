@@ -1,6 +1,5 @@
 import Stripe from 'stripe';
-import User from '../models/user.model.js';
-import Card from '../models/card.model.js';
+import UserDb  from '../models/user.model.js';
 import dotenv from 'dotenv';
 
 /* Accessing .env content */
@@ -10,36 +9,44 @@ const stripe = new Stripe(process.env.SECRET_KEY, {
   apiVersion: '2020-08-27',
 });
 
-export async function createCustomer(userId, email) {
+
+export async function createCustomer(foundUser) {
+  if (foundUser.stripeCustomerID) {
+    return foundUser.stripeCustomerID;
+  }
+
   const customer = await stripe.customers.create({
-    email: email,
+    email: foundUser.email,
     metadata: {
-      userId: userId,
+      userId: foundUser._id,
     },
   });
-  return customer;
+
+  foundUser.stripeCustomerID = customer.id;
+  await foundUser.save();
+
+  return customer.id;
 }
 
 export async function addCard(customerId, token) {
   const card = await stripe.customers.createSource(customerId, {
     source: token,
   });
-  const newCard = await Card.create({
-    customerId: customerId,
-    cardId: card.id,
-  });
-  return newCard;
+ 
+  return card;
 }
 
-export async function createPaymentIntent(amount, customerId, paymentMethod, metadata) {
+export async function createPaymentIntent(amount, customerId, paymentMethod) {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
-      currency: 'usd',
+      currency: 'eur',
       customer: customerId,
       payment_method: paymentMethod,
-      metadata: metadata,
+      off_session: true,
+      confirm: true
     });
+
     return paymentIntent;
   } catch (err) {
     console.error(err);
@@ -61,7 +68,7 @@ export async function httpMakePayment(req, res, amount, customerId, reservationI
     );
 
     res.status(200).json({
-      clientSecret: paymentIntent.client_secret,
+       paymentIntent
       
     });
     return paymentIntent;

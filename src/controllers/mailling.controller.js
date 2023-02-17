@@ -190,6 +190,45 @@ check your CityFlat App`;
    });
 }
 
+
+export function sendUserReservationEmail(user,reservation,amount) {
+   const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+         user: process.env.EMAIL,
+         pass: process.env.PASSWORD,
+      },
+   });
+  
+
+   const template = handlebars.compile(emailReservationTemplateSource);
+   const title = 'CityFlat Reservation feedback';
+   const message = `Hi there ${user.username}, We're excited to inform you that your reservation is sent to us for ${reservation.appartment.name}.
+your reservation code is : ${reservation.code} /
+your payment checkout is successfully done .
+amount : ${amount} euro.
+check the CityFlat App`;
+
+   const htmlToSend = template({
+      title: title,
+      message: message,
+      code: reservation.code,
+   });
+   const mailOptions = {
+      from: process.env.EMAIL,
+      to: user.email,
+      subject: 'CityFlat Reservation feedback[payment]',
+      html: htmlToSend,
+   };
+   transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+         console.log(err);
+      } else {
+      }
+      console.log(`Email sent to ${user.email} successfully`);
+   });
+}
+
 export function sendDeclineReservationEmail(user,reservation,appartment) {
    const transporter = nodemailer.createTransport({
       service: 'gmail',
