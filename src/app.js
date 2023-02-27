@@ -7,13 +7,19 @@ import passport from "passport";
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 
+import bodyParser from 'body-parser';
+
 import morgan from 'morgan';
 /* Imports from project modules */
 
 import { userRouter } from './routes/user.routes.js';
 import { appartmentRouter } from './routes/appartment.routes.js';
+import { paypalRouter} from './routes/paypal.routes.js';
 
+import dotenv from 'dotenv';
 
+/* Accessing .env content */
+dotenv.config();
 
 /* Creating express app */
 const app = express();
@@ -40,23 +46,29 @@ app.use(session({
  
    
   }));
+
+  app.use(bodyParser.urlencoded({extended:false}));
+  app.use(bodyParser.json());
 Passport();
 
 
 
 /* Handling different sockets */
 handleSockets();
-// PASSPORT MIDDLEWARE 
+
 
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 /* Using routers */
 app.use('/user', userRouter);
 
 app.use('/appartments',appartmentRouter);
 
 
+app.use('/paypal',paypalRouter);
 
 /** Error handlers */
 app.use(notFoundError);

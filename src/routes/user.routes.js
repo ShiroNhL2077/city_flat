@@ -2,6 +2,7 @@ import express from 'express';
 import multer from "../middlewares/multer_config.js";
 import passport from "passport";
 import {stripeWebhookMiddleware} from "../middlewares/stripe_handler.js";
+import paypal from 'paypal-rest-sdk';
 import {
 
    httpLoginUser,
@@ -56,6 +57,7 @@ import {
    httpAdminAcceptReservation,
    httpAdminDeclineReservation,
 } from '../controllers/reservation.controller.js';
+import { generateAccessTokenFetch} from "../controllers/paypal.controller.js";
 /** Defining the router */
 const userRouter = express.Router();
 
@@ -216,6 +218,10 @@ userRouter
     res.redirect(200,'/user/reservations/getallReservations');
     
   });
+
+ 
+ 
+
 
 export { userRouter };
 
