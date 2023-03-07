@@ -1,0 +1,80 @@
+.header {
+    background-image: url("../../../public/nicolas-peyrol-l2VmsBG8nPE-unsplash.png");
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    background-size: cover;
+    background-position: top;
+    min-height: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.title {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 30px;
+    font-weight: 500;
+    font-family: "Spectral SC";
+    color: #84461a;
+}
+
+
+.search {
+  width: 55%;
+  height: 10%;
+  border-radius: 2em;
+  overflow: hidden;
+  font-size: 15px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.search:focus-within {
+  box-shadow: 2px 2px 5px #000;
+}
+
+.search__filter,
+.search__input {
+  background-color: #fff;
+  border: none;
+  outline: none;
+}
+
+.search__input {
+  padding: 1em;
+  width: 85%;
+}
+
+.search__filter {
+  width: 15%;
+  font-size: 1.5rem;
+  padding-right: 0.5em;
+  color: gray;
+  display: grid;
+  place-content: center;
+}
+
+@media (min-width: 576px) {
+  .search {
+    font-size: 25px;
+  }
+
+  .search__filter {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .search {
+
+  }
+
+  .search__filter {
+    padding-right: 0.5em;
+    font-size: 1.5rem;
+  }
+}
