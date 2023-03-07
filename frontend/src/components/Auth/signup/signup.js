@@ -4,7 +4,7 @@ import "./signup.css";
 function signup() {
   return (
     <div className="signupPage ">
-    <div className="header">
+    <div className="header-signup">
       <div className="Logo">
         <img
           src="../logo-variation-plan-de-travail-1-copie-1@2x.png"

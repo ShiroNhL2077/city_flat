@@ -15,19 +15,15 @@ import Luxury from "./components/Home/Luxury/luxury";
 import Premium from "./components/Home/Premium/premium";
 import Standard from "./components/Home/Standard/standard";
 import Footer from "./components/Footer/footer"
+import Homepage from "./Pages/Homepage";
 
 function App() {
   return (
     <div className="App"> 
-    <Navbar/>  
-			<CoverPage/>
-      <Luxury/>
-      <Premium/>
-      <Standard/>
-      <Footer/>
+
       <BrowserRouter>
       <Routes>
-        <Route path="/"/>
+        <Route path="/" element={<Homepage/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
       </Routes>

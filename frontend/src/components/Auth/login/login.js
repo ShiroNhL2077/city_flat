@@ -4,7 +4,7 @@ import "./login.css";
 function login() {
   return (
     <div className="loginPage ">
-      <div className="header">
+      <div className="header-login">
         <div className="Logo">
           <img
             src="../logo-variation-plan-de-travail-1-copie-1@2x.png"
