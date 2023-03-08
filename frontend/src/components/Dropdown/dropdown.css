@@ -1,0 +1,93 @@
+
+.dropdown__menu {
+    position: absolute;
+    display:inline-block;
+    top: 3.5rem;
+    right: 2.4rem;
+    width: 250px;
+    padding: 15px;
+    border-radius: 2px;
+    background-color: black;
+}
+
+.dropdown__menu::before {
+    content: '';
+    position : absolute;
+    top : -0.5rem;
+    right: 2.1rem;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: black;
+}
+
+.dropdown__list {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 20px;
+    padding: 10px 0;
+}
+
+
+
+.button-31 {
+  background-color: #fff;
+  border-radius: 2px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Spectral SC"; 
+   font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  max-width: none;
+  min-height: 44px;
+  min-width: 10px;
+  outline: none;
+  overflow: hidden;
+  padding: 9px 20px 8px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  margin-bottom: 10px ;
+}
+
+.button-31:hover,
+.button-31:focus {
+  opacity: .75;
+}
+.user__info {
+    width: 100%;
+}
+
+.circular__image {
+ width: 30%;
+ float: left;
+ display: inline-block;
+}
+img {
+border-radius: 50%;
+width: 50px;
+height: 50px;
+float: left;
+}
+.user__name{ 
+width: 70%;
+float: right;
+justify-content: center;
+
+}
+
+.user__name p {
+    font-family: "Spectral SC";
+    margin: 0;
+    margin-top: 10%;
+    float: left;
+}

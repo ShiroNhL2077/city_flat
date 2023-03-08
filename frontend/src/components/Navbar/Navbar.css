@@ -3,9 +3,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
   background: transparent;
   position: fixed;
+ padding-top: 1%;
+ z-index: 999;
 }
 
 .navbar-menu {
@@ -20,6 +21,14 @@
   margin-right: 60px;
   color: white;
 }
+
+button {
+  background-color: transparent;
+  border: 0;
+  color: white;
+}
+
+
 
 @media screen and (max-width: 500px) {
     .navbar-user {

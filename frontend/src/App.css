@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Spectral+SC:wght@400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Alegreya:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+
 
 .App {
   text-align: center;
@@ -32,12 +34,14 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    opacity: 0;
+    transform: translateY(2rem);
   }
 }
 
@@ -72,8 +76,9 @@ body {
   --color-saddlebrown: #84461a;
   --color-darkslateblue: #003a7f;
   --color-gray: #969696;
-  --color-brown : #3a1e0a;
+  --color-brown: #3a1e0a;
 
   /* border radiuses */
   --br-md: 3px;
 }
+

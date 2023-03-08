@@ -10,7 +10,7 @@ import {
 import Login from "./components/Auth/login/login";
 import Signup from "./components/Auth/signup/signup";
 import Navbar from "./components/Navbar/Navbar";
-import CoverPage from "./components/coverPage/coverPage";
+import CoverPage from "./components/Home/coverPage/coverPage";
 import Luxury from "./components/Home/Luxury/luxury";
 import Premium from "./components/Home/Premium/premium";
 import Standard from "./components/Home/Standard/standard";

@@ -9,9 +9,9 @@ function coverPage() {
     <div className="homepage">
       <div className="borders">
         <div className="container">
-          <div className="header">
+          <div className="header__cover">
             <div>
-              <h1 className="title">
+              <h1 className="title__cover">
                 BOOK YOUR NEXT GETAWAY AND LET US TAKE CARE OF THE REST!
               </h1>
             </div>

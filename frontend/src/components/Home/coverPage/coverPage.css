@@ -1,5 +1,5 @@
 .homepage {
-  background-image: url("../../../public/nicolas-peyrol-l2VmsBG8nPE-unsplash.png");
+  background-image: url("../../../../public/nicolas-peyrol-l2VmsBG8nPE-unsplash.png");
   background-size: cover;
   background-position: top;
   justify-content: center;
@@ -15,7 +15,7 @@
     border-bottom:solid blanchedalmond 3px;
 }
 
-.header {
+.header__cover {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,7 +27,7 @@
     background-color: transparent;
 }
 
-.title {
+.title__cover {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -73,7 +73,7 @@
   place-content: center;
 }
 
-@media (min-width: 576px) {
+@media screen and (min-width: 576px) {
   .search {
     font-size: 25px;
   }
@@ -83,7 +83,7 @@
   }
 }
 
-@media (min-width: 800px) {
+@media screen and (min-width: 800px) {
   .search {
     font-size: 25px;
   }
