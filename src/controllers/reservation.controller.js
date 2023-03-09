@@ -5,9 +5,11 @@ import appartmentDb from '../models/appartment.model.js';
 import userDb from '../models/user.model.js';
 import { validationResult } from 'express-validator';
 import { findOneUserByFilter, userFormat } from '../controllers/user.controller.js';
-import { sendReservationEmail, sendDeclineReservationEmail ,sendUserReservationEmail} from '../controllers/mailling.controller.js';
+import { sendReservationEmail, sendDeclineReservationEmail, sendUserReservationEmail } from '../controllers/mailling.controller.js';
 
 import { createCustomer, addCard, httpMakePayment, createCheckoutSession } from '../controllers/stripePayment.controller.js';
+import { updateBookedDates } from "../controllers/apartment.controller.js";
+import { createNotification } from '../controllers/notification.controller.js';
 import dotenv from 'dotenv';
 
 /* Accessing .env content */
@@ -89,7 +91,7 @@ export function httpCreateReservation(req, res) {
 
                // Call payment function to make payment
                const paymentAmount = calculateReservationTotalFee(newReservation);
-               newReservation.totalPrice=paymentAmount;
+               newReservation.totalPrice = paymentAmount;
                createCustomer(foundUser)
                   .then((customerId) => {
                      const cardDetails = req.body.paymentMethod.card;
@@ -150,8 +152,18 @@ export function httpCreateReservation(req, res) {
 
                                                 reservationDb.create(newReservation)
                                                    .then((result) => {
-                                                      findOneReservationByFilter(result._id)
-                                                      sendUserReservationEmail(foundUser,newReservation,newReservation.totalPrice);
+                                                      findOneReservationByFilter(result._id);
+                                                      updateBookedDates(newReservation.appartment.id, newReservation.checkIn, newReservation.checkOut, res);
+                                                      sendUserReservationEmail(foundUser, newReservation, newReservation.totalPrice);
+
+
+                                                      // Create notification for the user
+                                                      const notification = {
+                                                         user: foundUser._id,
+                                                         message: 'You have made a reservation for the '+appartment.name+' , reservation code : '+newReservation.code,
+                                                      };
+                                                      createNotification(notification)
+                                                         .catch((err) => console.error(err))
                                                    })
                                                    .catch((err) => res.status(500).json({ error: err.message }));
                                              })
@@ -266,6 +278,13 @@ export function httpDeclineReservation(req, res) {
                reservationDb
                   .findByIdAndDelete(foundReservation._id)
                   .then((result) => {
+         ///// creating the decline notification
+                     const notification = {
+                        user: user.id,
+                        message: 'You have declined the reservation for :'+foundReservation.appartment.name+" reservation code : "+foundReservation.code,
+                      };
+
+                      createNotification(notification);
                      res.status(200).json({
                         message: `${foundReservation.code} delclined successfully`,
                      });
@@ -313,7 +332,11 @@ export function httpAdminDeclineReservation(req, res) {
                                  },
                               })
                               .then((reservation) => {
-
+                                 const notification = {
+                                    user: foundReservation.User._id,
+                                    message: 'Your reservation for :'+foundReservation.appartment.name +" reservation code : "+foundReservation.code+"has been declined by our admin .",
+                                  };
+                                  createNotification(notification);
 
                                  res.status(200).json({
                                     message: `${foundReservation.code} delclined successfully`,
@@ -461,14 +484,14 @@ function generateRandomCode(length) {
 
 function calculateReservationTotalFee(reservation) {
    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
- 
+
    const checkIn = new Date(reservation.checkIn);
    const checkOut = new Date(reservation.checkOut);
    const nights = Math.round((checkOut - checkIn) / millisecondsPerDay); // Number of nights
- 
+
    const nightsFee = nights * reservation.nightsFee;
    const servicesFee = nights * reservation.servicesFee;
    const totalPrice = nightsFee + servicesFee;
- 
+
    return totalPrice;
- }
+}

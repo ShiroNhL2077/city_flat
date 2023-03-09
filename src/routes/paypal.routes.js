@@ -18,13 +18,13 @@ let amount = 0;
 
 paypalRouter
     .get("/success", (req, res) => {
-
+        amount = req.body.price;
         var execute_payment_json = {
             "payer_id": req.query.PayerID,
             "transactions": [{
                 "amount": {
-                    "currency": "USD",
-                    "total": "150.0"
+                    "currency": "EUR",
+                    "total": amount
                 }
             }]
         };
@@ -69,14 +69,14 @@ paypalRouter
                     "items": [{
                         "name": "item",
                         "sku": "item",
-                        "price": "150.0",
-                        "currency": "USD",
+                        "price": amount,
+                        "currency": "EUR",
                         "quantity": 1
                     }]
                 },
                 "amount": {
-                    "currency": "USD",
-                    "total": "150.0"
+                    "currency": "EUR",
+                    "total": amount
                 },
                 "description": "This is the payment description."
             }]

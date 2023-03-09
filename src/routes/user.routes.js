@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from "../middlewares/multer_config.js";
 import passport from "passport";
-import {stripeWebhookMiddleware} from "../middlewares/stripe_handler.js";
+import { stripeWebhookMiddleware } from "../middlewares/stripe_handler.js";
 import paypal from 'paypal-rest-sdk';
 import {
 
@@ -28,10 +28,11 @@ import {
    ensureUser,
    ensureLoggedIn,
    ensureAuth,
+   validateLogin,
 } from '../middlewares/authorization-handler.js';
 
 import {
-   
+
    httpAddAppartment,
    httpGetOneAppartment,
    httpUpdateOneAppartment,
@@ -48,7 +49,7 @@ import {
 
 } from '../controllers/service.controller.js';
 
-import { 
+import {
    httpCreateReservation,
    httpGetMyReservations,
    httpGetAllReservations,
@@ -57,7 +58,7 @@ import {
    httpAdminAcceptReservation,
    httpAdminDeclineReservation,
 } from '../controllers/reservation.controller.js';
-import { generateAccessTokenFetch} from "../controllers/paypal.controller.js";
+
 /** Defining the router */
 const userRouter = express.Router();
 
@@ -67,14 +68,9 @@ userRouter
    .route('/register')
    .post(
       multer("img", 512 * 1024),
-      body('name').isLength({ min: 5 }),
-      body('email').isEmail(),
-      body('number').isLength({ min: 8 }),
-      body('password').isLength({ min: 4 }),
-      body('birthday').isDate(),
       httpRegisterUser
    );
-userRouter.route('/login').post(httpLoginUser);
+userRouter.route('/login').post(validateLogin, httpLoginUser);
 userRouter
    .route('/:param')
    .get(httpGetOneUser)
@@ -95,24 +91,18 @@ userRouter
    .get(httpResendVerificationEmail)
    .post(httpVerifyEmail);
 //add appartment
-   userRouter
+userRouter
    .route('/appartments/addAppartment')
    .post(
       ensureAdmin,
       multer("img", 512 * 1024),
-      body('name').isLength({ min: 5 }),
-      body('description'),
-      body('pricePerNight'),
-      body('FromDate').isDate(),
-      body('ToDate').isDate(),
-      body('location'),
-      body('rooms'),
+
       httpAddAppartment,
 
 
    );
-   //add service
-   userRouter
+//add service
+userRouter
    .route('/services/addService')
    .post(
       ensureAdmin,
@@ -120,40 +110,40 @@ userRouter
       body('name').isLength({ min: 5 }),
       body('description'),
       body('pricePerNight'),
-    
+
       httpAddService,
 
 
    );
-   //admin/appartment routes
-   userRouter
+//admin/appartment routes
+userRouter
    .route('/appartments/:param')
    .get(httpGetOneAppartment)
    .put(ensureAdmin, httpUpdateOneAppartment)
    .delete(ensureAdmin, httpDeleteOneAppart);
 // get/update/delete service
-   userRouter
+userRouter
    .route('/services/:param')
    .get(httpGetOneService)
    .put(ensureAdmin, httpUpdateOneService)
    .delete(ensureAdmin, httpDeleteOneService);
-   //get all services
-   userRouter
+//get all services
+userRouter
    .route('/service/getAllServices')
    .get(httpGetAllServices);
 //reservations
-   userRouter
+userRouter
    .route('/reservations/getall')
-   .get(ensureUser,httpGetMyReservations);
+   .get(ensureUser, httpGetMyReservations);
 //admin get all reservations
-   userRouter
+userRouter
    .route('/reservations/getallReservations')
-   .get(ensureAuth,httpGetAllReservations);
+   .get(ensureAuth, httpGetAllReservations);
 
-   userRouter
+userRouter
    .route('/reservations/addReservation')
    .post(
-      
+
       body('reservation.description').isLength({ min: 5 }),
       body('reservation.totalPrice'),
       body('reservation.checkIn').isDate(),
@@ -165,62 +155,63 @@ userRouter
       httpCreateReservation
    );
 
-   userRouter
+userRouter
    .route('/reservations/decline/:param')
-   .delete(ensureUser,httpDeclineReservation);
-   userRouter
+   .delete(ensureUser, httpDeclineReservation);
+userRouter
    .route('/reservations/getOne/:param')
-   .get(ensureUser,httpGetOneReservation);
-   userRouter
+   .get(ensureUser, httpGetOneReservation);
+userRouter
    .route('/reservations/accept/:param')
-   .post(ensureAdmin,httpAdminAcceptReservation);
+   .post(ensureAdmin, httpAdminAcceptReservation);
 
-   userRouter
+userRouter
    .route('/reservations/adminDecline/:param')
-   .delete(ensureAdmin,httpAdminDeclineReservation);
-   userRouter
+   .delete(ensureAdmin, httpAdminDeclineReservation);
+userRouter
    .route("/webhooks/stripe")
-   .post(stripeWebhookMiddleware,(req, res) => {
+   .post(stripeWebhookMiddleware, (req, res) => {
       const event = req.stripeEvent;
-    
+
       switch (event.type) {
-        case 'payment_intent.succeeded':
-          // Handle payment succeeded event
-          break;
-    
-        case 'payment_intent.payment_failed':
-          // Handle payment failed event
-          break;
-    
-        case 'payment_intent.amount_capturable_updated':
-          // Handle amount capturable updated event
-          break;
-    
-        case 'payment_intent.canceled':
-          // Handle payment canceled event
-          break;
-    
-        default:
-          console.log(`Unhandled event type ${event.type}`);
+         case 'payment_intent.succeeded':
+            // Handle payment succeeded event
+            break;
+
+         case 'payment_intent.payment_failed':
+            // Handle payment failed event
+            break;
+
+         case 'payment_intent.amount_capturable_updated':
+            // Handle amount capturable updated event
+            break;
+
+         case 'payment_intent.canceled':
+            // Handle payment canceled event
+            break;
+
+         default:
+            console.log(`Unhandled event type ${event.type}`);
       }
-    
-      res.sendStatus(200);});
 
-   userRouter
+      res.sendStatus(200);
+   });
+
+userRouter
    .get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }));
+      passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-  userRouter
-  .get('/api/sessions/oauth/google', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect(200,'/user/reservations/getallReservations');
-    
-  });
+userRouter
+   .get('/api/sessions/oauth/google',
+      passport.authenticate('google', { failureRedirect: '/login' }),
+      function (req, res) {
+         // Successful authentication, redirect home.
+         res.redirect(200, '/user/reservations/getallReservations');
 
- 
- 
+      });
+
+
+
 
 
 export { userRouter };
