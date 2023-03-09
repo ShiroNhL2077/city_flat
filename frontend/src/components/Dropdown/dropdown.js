@@ -5,7 +5,7 @@ function dropdown() {
   return (
     <div className="flex flex-col gap-4 dropdown__menu">
         <div className="user__info">
-           <div className="circular__image"><img src="./avatar.png" alt="profile pic "/></div>
+           <div className="circular__image"><img src="./avatar.png" alt="profile pic"/></div>
            <div className="user__name"><p>User Name</p></div>
         </div>
       <div className="dropdown__list">
