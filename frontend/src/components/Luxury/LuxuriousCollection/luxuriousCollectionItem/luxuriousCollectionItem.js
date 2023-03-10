@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "../luxuriousCollectionItem/luxuriousCollectionItem.css";
+import Rate from "../../../Rate/Rate";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 
-function luxuriousCollectionItem() {
+function LuxuriousCollectionItem() {
+  const [rating,setRating] = useState(0);
   return (
     <div className="luxurious_collection_items">
       <div className="luxurious_collection_items_title">
@@ -31,6 +33,7 @@ function luxuriousCollectionItem() {
             <div className="card_content">
               <h3>APARTMENT NAME</h3>
               <p>Description about the house and stuff</p>
+              <Rate rating={rating} onRating={rate => setRating(rate)}/>
             </div>  
           </div>
         </div>
@@ -40,4 +43,4 @@ function luxuriousCollectionItem() {
   );
 }
 
-export default luxuriousCollectionItem;
+export default LuxuriousCollectionItem;
