@@ -13,8 +13,8 @@ padding-bottom: 3%;
     padding-top: 3%;
     font-size: 40px;
     font-weight: 400;
-    font-family: "Spectral SC";
-    color: #FCD2B4;
+    font-family: "Havelock Titling";
+    color: #F9EFDB;
 }
 
 .title {
@@ -27,8 +27,8 @@ padding-bottom: 3%;
     background: linear-gradient(to left,
             transparent 0%,
             transparent calc(50% - 0.81px),
-            #FCD2B4 calc(50% - 0.8px),
-            #FCD2B4 calc(50% + 0.8px),
+            #F9EFDB calc(50% - 0.8px),
+            #F9EFDB calc(50% + 0.8px),
             transparent calc(50% + 0.81px),
             transparent 100%);
 }
@@ -58,8 +58,8 @@ padding-bottom: 3%;
     background: linear-gradient(to left,
             transparent 0%,
             transparent calc(50% - 0.81px),
-            #FCD2B4 calc(50% - 0.8px),
-            #FCD2B4 calc(50% + 0.8px),
+            #F9EFDB calc(50% - 0.8px),
+            #F9EFDB calc(50% + 0.8px),
             transparent calc(50% + 0.81px),
             transparent 100%);
 }
@@ -68,23 +68,24 @@ padding-bottom: 3%;
     margin: 0;
     font-size: x-large;
     font-weight: 400;
-    font-family: "Spectral SC";
-    color: #FCD2B4;
+    font-family: "Havelock Titling";
+    color: #F9EFDB;
 }
 
 .description__text P {
    text-align: left; 
-   font-family: "Spectral SC";
+   font-family: font-alethia-pro;
    
    font-size: small;
 }
 
 .discover__button {
-    font-family: "Spectral SC" !important;
+    font-family: font-alethia-pro !important;
+    border-color: gold !important;
 }
 
 .description__content {
-    color: bisque;
+    color: #F9EFDB;
     text-align: left;
     line-height: 26pt;
     width: 70%;

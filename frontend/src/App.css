@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+@import url('//db.onlinewebfonts.com/c/877157025d03c4d7ed11a04f1dfd4472?family=Havelock+Titling');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@300&family=Titillium+Web:wght@600&display=swap');
+
 
 
 .App {
@@ -43,6 +46,11 @@
     opacity: 0;
     transform: translateY(2rem);
   }
+}
+
+@font-face {
+  font-family: font-alethia-pro;
+  src: url(./fonts/alethiapro-regular.otf);
 }
 
 body {

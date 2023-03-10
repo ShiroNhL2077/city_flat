@@ -25,6 +25,7 @@ button {
   color: white;
 }
 
+/*** Menu Style ***/
 .menu__animation {
   animation: fadeOut 0.6s ease-in-out;
 }
@@ -81,22 +82,26 @@ margin-left: auto;
 margin-right: auto;
 display: table;
 box-shadow:
--40px -40px 0 -30px yellow,
-40px 40px 0 -30px yellow;
+-40px -40px 0 -35px yellow,
+40px 40px 0 -35px yellow;
 width: 50vh;
+padding: 5%;
 }
 
 .link__item {
-  font-size: 200%;
+  font-size: 2.5vw;
   color: white;
-  font-family: "Spectral SC";
+  font-weight: 100;
+  font-family: 'Lexend Exa', sans-serif;
   margin: 5%;
+  letter-spacing: 0.2em;
   margin-top: 10%;
 }
 
 
 .menu__items tr {
   width: 100%;
+  
 }
 
 .menu__items ul {
@@ -108,7 +113,7 @@ width: 50vh;
   color: yellow !important;
 }
 
-
+/*** Dropdown menu Style ***/
 .dropdown__menu {
   position: absolute;
   display:inline-block;
@@ -154,9 +159,9 @@ box-sizing: border-box;
 color: #000;
 cursor: pointer;
 display: inline-block;
-font-family: "Spectral SC"; 
- font-size: 16px;
-font-weight: 700;
+font-family: font-alethia-pro;
+font-size: 20px;
+font-weight: 500;
 line-height: 1.5;
 margin: 0;
 max-width: none;
@@ -168,8 +173,8 @@ padding: 9px 20px 8px;
 position: relative;
 text-align: center;
 text-transform: none;
-user-select: none;
 -webkit-user-select: none;
+user-select: none;
 touch-action: manipulation;
 width: 100%;
 margin-bottom: 10px ;
@@ -186,7 +191,6 @@ opacity: .75;
 .circular__image {
 width: 30%;
 float: left;
-display: inline-block;
 }
 .circular__image img {
 border-radius: 50%;
@@ -202,13 +206,13 @@ justify-content: center;
 }
 
 .user__name p {
-  font-family: "Spectral SC";
+  font-family: 'Lexend Mega', sans-serif;
   margin: 0;
   margin-top: 10%;
   float: left;
 }
 
-@media screen and (max-width: 500px) {
+@media only screen and (max-width: 500px) {
     .navbar-user {
       opacity: 0;
       max-height: 150px;
@@ -217,7 +221,7 @@ justify-content: center;
 }
 
 /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
-@media screen and (max-width: 1466px) {
+@media only screen and (max-width: 1466px) {
   .dropdown__menu {
       top:3.5rem;
       right: 3.5rem;
@@ -227,7 +231,7 @@ justify-content: center;
 }
 
 /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
-@media screen and (max-width: 550px) {
+@media only screen and (max-width: 550px) {
   .dropdown__menu {
       top: 3rem;
       right: 3.5rem;
@@ -242,7 +246,6 @@ justify-content: center;
       top: 3rem;
       right: 3.5rem;
   }
-  
 
 }
 

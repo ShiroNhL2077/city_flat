@@ -9,7 +9,7 @@ function footer() {
     <footer className="footer__content">
       <div className="footer_row">
         <div className="col-md mb-4 mb-md-0">
-          <h3>Company</h3>
+          <h3>COMPANY</h3>
           <ul className="list-unstyled nav-links">
             <li><a href="#">About us</a></li>
             <li><a href="#">Why Choose us</a></li>
@@ -18,7 +18,7 @@ function footer() {
           </ul>
         </div>
         <div className="col-md mb-4 mb-md-0">
-          <h3>Resources</h3>
+          <h3>RESOURCES</h3>
           <ul className="list-unstyled nav-links">
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms &amp; Condition</a></li>
@@ -27,7 +27,7 @@ function footer() {
           </ul>
         </div>
         <div className="col-md mb-4 mb-md-0">
-          <h3>Product</h3>
+          <h3>PRODUCT</h3>
           <ul className="list-unstyled nav-links">
             <li><a href="#">Project Managment</a></li>
             <li><a href="#">Time Tracker</a></li>
@@ -41,7 +41,7 @@ function footer() {
           <p className="mb-4">Subscribe to our Newsletter</p>
           <form action="#" className="subscribe">
               <input type="text" className="form-control" placeholder="Enter your e-mail"/>
-              <input type="submit" className="btn btn-submit" value="Send"/>
+              <input type="submit" className="btn btn-submit" value="Subscribe"/>
             </form>
         </div>
       </div>

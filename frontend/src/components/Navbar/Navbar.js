@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Dropdown from "../Dropdown/dropdown";
 import "./Navbar.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,7 +111,7 @@ function Navbar() {
                 <img src="./avatar.png" alt="profile pic" />
               </div>
               <div className="user__name">
-                <p>User Name</p>
+                <p>USER NAME</p>
               </div>
             </div>
             <div className="dropdown__list">

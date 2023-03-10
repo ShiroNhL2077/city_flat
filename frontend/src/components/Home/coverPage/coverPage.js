@@ -12,7 +12,7 @@ function coverPage() {
           <div className="header__cover">
             <div>
               <h1 className="title__cover">
-                BOOK YOUR NEXT GETAWAY AND LET US TAKE CARE OF THE REST!
+                BOOK YOUR NEXT GETAWAY AND LET US <br/> TAKE CARE OF THE REST!
               </h1>
             </div>
 
@@ -28,6 +28,7 @@ function coverPage() {
                 <FontAwesomeIcon icon={faFilter} />
               </button>
             </form>
+            <div className="scroll__down"><p>SCROLL DOWN</p></div>
           </div>
         </div>
       </div>

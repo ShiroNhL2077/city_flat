@@ -1,0 +1,68 @@
+.luxurious_collection_items {
+    background-color: black;
+    min-height: 100%;
+    padding-bottom: 3%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.luxurious_collection_items_title h2 {
+    margin-top: 3vh;
+    font-weight: 400;
+    font-family: 'Lexend Mega', sans-serif;
+    color: #fff;
+}
+
+.left_item {
+    width: 50%;
+    float: left;
+    padding: 5%;
+}
+
+.right_item {
+    width: 50%;
+    float: right;
+}
+
+.card_img{
+    width: 100%;
+    height: 50%;
+}
+
+.card_body {
+    width: 100%;
+height: 50%;
+}
+
+.like_button {
+    width: 10%;
+    float: right;
+    margin-right: 2%;
+    margin-top: 2%;
+    position: relative;
+}
+
+.card_content{
+    width: 90%;
+    text-align: left;
+    margin-top: 2%;
+    color: white;
+    padding-left: 2%;
+
+}
+ .card_content h3 {
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 2vw !important;
+ }
+
+ .card_content p {
+    font-family: font-alethia-pro;
+    font-weight: 10 !important;
+    font-size: 1.2vw;
+ }
+
+.highlight {
+    color: #EB2733;
+}
+

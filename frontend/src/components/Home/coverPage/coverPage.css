@@ -31,10 +31,10 @@
     text-align: center;
     margin-top: 50px;
     margin-bottom: 50px;
-    font-size: 30px;
-    font-weight: 500;
-    font-family: "Spectral SC";
-    color: #84461a;
+    font-size: 2vw;
+    font-weight: 800;
+    font-family: 'Lexend Mega', sans-serif;
+    color: #000;
 }
 
 
@@ -73,23 +73,35 @@
   place-content: center;
 }
 
-@media screen and (min-width: 576px) {
+.scroll__down {
+  text-align: center;
+  position: absolute;
+  margin-top: 90vh;
+}
+
+.scroll__down p {
+  color: #fff;
+  font-family: font-alethia-pro;
+}
+
+@media only screen and (max-width: 600px) {
   .search {
-    font-size: 25px;
+    font-size: 10px;
   }
 
   .search__filter {
     font-size: 1.5rem;
+    right: 0.5em;
   }
 }
 
-@media screen and (min-width: 800px) {
+@media only screen and (max-width: 800px) {
   .search {
-    font-size: 25px;
+    font-size: 15px;
   }
 
   .search__filter {
-    padding-right: 0.5em;
+    right: 0.5em;
     font-size: 1.5rem;
   }
 }

@@ -18,6 +18,7 @@ a:hover {
     padding-right: 3%;
     padding-left: 3%;
     font-family: "Spectral SC";
+    background-color: #D7D7D7;
 }
 
 .content {
@@ -34,10 +35,10 @@ a:hover {
 }
 
 .footer__content .subscribe .form-control {
-    background-color: #e6e6e6;
+    background-color: #000;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border-radius: 30px;
+    border-radius: 10px;
     height: 50px;
     padding-left: 30px;
     padding-right: 130px;
@@ -47,50 +48,48 @@ a:hover {
 
 .footer__content .subscribe .form-control::-webkit-input-placeholder {
     color: #b3b3b3;
-    font-style: italic;
     font-size: 14px;
-    font-family: "Spectral SC";
+    font-family: font-alethia-pro;
 }
 
 .footer__content .subscribe .form-control::-moz-placeholder {
     color: #b3b3b3;
-    font-style: italic;
     font-size: 14px;
 }
 
 .footer__content .subscribe .form-control:-ms-input-placeholder {
     color: #b3b3b3;
-    font-style: italic;
     font-size: 14px;
+    font-family: font-alethia-pro;
 }
 
 .footer__content .subscribe .form-control:-moz-placeholder {
     color: #b3b3b3;
-    font-style: italic;
     font-size: 14px;
-    font-family: "Spectral SC";
+    font-family: font-alethia-pro;
 }
 
 .footer__content .subscribe .btn-submit {
-    background: #84461a;
+    background: #fff;
     height: 40px;
-    border-radius: 30px;
+    border-radius: 10px;
     padding-left: 30px;
     padding-right: 30px;
-    color: #fff;
+    color: #000;
     font-weight: bold;
+    font-size: 12px;
     position: absolute;
-    font-family: "Spectral SC";
+    font-family: font-alethia-pro;
     top: 5px;
-    right: 5px;
+    right: -30px;
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .footer__content h3 {
     font-size: 20px;
-    font-weight: 900;
-    font-family: "Spectral SC";
+    font-weight: 500;
+    font-family: 'Lexend Exa', sans-serif;
     color: #000;
     margin-bottom: 20px;
 }
@@ -100,7 +99,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  font-family: "Spectral SC";
+  
 }
 
 .footer__content .nav-links li {
@@ -110,12 +109,12 @@ a:hover {
 }
 
 .footer__content .nav-links li a {
-    color: #9d9d9d;
-    font-family: "Spectral SC";
+    color: #929191;
+    font-family: font-alethia-pro;
 }
 
 .footer__content .nav-links li a:hover {
-    color: #84461a;
+    color: #000;
 }
 
 .footer__content .social li {
@@ -129,6 +128,13 @@ a:hover {
 }
 
 .footer__content .social li a:hover {
-    color: #84461a;
+    color: #000;
 }
 
+.footer_row  {
+    text-align: left !important;
+}
+
+.list-unstyled{
+    text-align: left !important;
+}
