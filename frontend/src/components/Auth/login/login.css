@@ -138,7 +138,7 @@ i{
 .input-field .input:valid ~ label{
     top: -10px;
     font-size: 10px;
-    color: #84461A;
+    color: #000;
 }
 .input-field .input:focus, .input-field .input:valid{
     border-bottom: 2px solid #84461A;
@@ -147,7 +147,7 @@ i{
     border: none;
     outline: none;
     height: 45px;
-    background: #84461A;
+    background: #000;
     margin-top: 30px ;
     border-radius: 5px;
     transition: .4s;
@@ -171,7 +171,7 @@ i{
 }
 
 .submit:hover{
-    background: #b8703d;
+    background: #2b2b2b;
     color: #fff;
 }
 .signup{
@@ -237,12 +237,12 @@ a.social:hover {
   margin: 0;
   font-size: 60px;
   font-weight: 400;
-  font-family: "Spectral SC";
-  color: #84461a;
+  font-family: 'Lexend Mega', sans-serif;
+  color: #000;
 }
 
 .login-text {
-  font-family:'Titillium Web', sans-serif;
+  font-family: font-alethia-pro;
   margin-top: 10px;
   margin-bottom: 20px 
 }

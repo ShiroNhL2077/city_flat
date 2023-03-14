@@ -7,7 +7,7 @@ function premium() {
       <div className="premium__page">
         <div className="">
           <div className="title">
-            <p className="title__premium">Premium</p>
+            <p className="title__premium">PREMIUM</p>
           </div>
           <div className="line-in-middle"></div>
           <div className="premium__content">

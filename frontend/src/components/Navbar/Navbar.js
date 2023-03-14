@@ -121,7 +121,7 @@ function Navbar() {
               <hr />
               <button className="button-31">Account</button>
               <button className="button-31">Help</button>
-              <button className="button-31">Logout</button>
+              <a href="/login"><button className="button-31">Logout</button></a>
             </div>
           </div>
         )}

@@ -63,7 +63,7 @@ function signup() {
             </div>
         
             <div className='signup-button'>
-              <input type="submit" className="submit" value="SIGN UP" />
+            <a href="/"><input type="submit" className="submit" value="SIGN UP" /></a>
             </div>
             <div className="separators">
               <hr className="seperator left" /> OR

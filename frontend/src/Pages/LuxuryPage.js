@@ -6,6 +6,8 @@ import TopRated from '../components/Luxury/TopRated/topRated'
 import Navbar from '../components/Navbar/Navbar'
 import Footer from '../components/Footer/footer'
 
+import "../App.css";
+
 
 function LuxuryPage() {
   return (

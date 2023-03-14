@@ -7,7 +7,7 @@ function standard() {
       <div className="standard__page">
         <div className="">
           <div className="title">
-            <p className="title__standard">standard</p>
+            <p className="title__standard">STANDARD</p>
           </div>
           <div className="line-in-middle"></div>
           <div className="standard__content">
@@ -16,7 +16,7 @@ function standard() {
 
               <div className="description__content">
                 <div className="description__title">
-                  <p>OUR standard COLLECTION</p>
+                  <p>OUR STANDARD COLLECTION</p>
                 </div>
 
                 <div className="description__text">

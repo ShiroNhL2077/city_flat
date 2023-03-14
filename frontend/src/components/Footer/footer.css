@@ -32,6 +32,7 @@ a:hover {
 
 .footer__content .subscribe {
     position: relative;
+    
 }
 
 .footer__content .subscribe .form-control {
@@ -138,3 +139,36 @@ a:hover {
 .list-unstyled{
     text-align: left !important;
 }
+
+@media only screen and (max-width: 480px) {
+    .footer__content .subscribe .btn-submit {
+        background: #fff;
+        height: 40px;
+        border-radius: 10px;
+        padding-left: 30px;
+        padding-right: 30px;
+        color: #000;
+        font-weight: bold;
+        font-size: 12px;
+        position: absolute;
+        font-family: font-alethia-pro;
+        top: 5px;
+        right: -7px;
+        margin-right: 5px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .footer__content .subscribe .form-control {
+        background-color: #000;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 10px;
+        height: 50px;
+        padding-left: 20px;
+        padding-right: 110px;
+        border: none;
+        color: #000;
+        width: 95%;
+    }
+    }

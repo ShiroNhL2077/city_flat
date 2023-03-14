@@ -52,7 +52,7 @@ function login() {
                 <a href="#">Forgot password?</a>
               </div>
               <div className="input-field">
-                <input type="submit" className="submit" value="LOGIN" />
+                <a href="/"><input type="submit" className="submit" value="LOGIN" /></a>
               </div>
               <div className="separators">
                 <hr className="seperator left" /> OR

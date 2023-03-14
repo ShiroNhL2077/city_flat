@@ -212,7 +212,7 @@ justify-content: center;
   float: left;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 300px) {
     .navbar-user {
       opacity: 0;
       max-height: 150px;
@@ -234,7 +234,15 @@ justify-content: center;
 @media only screen and (max-width: 550px) {
   .dropdown__menu {
       top: 3rem;
-      right: 3.5rem;
+      right: 1rem;
+  }
+  .navbar-user {
+    margin-right: 20px;
+    color: white;
+  }
+  .navbar-menu {
+    margin-left: 20px;
+    color: white;
   }
   
 
@@ -243,9 +251,49 @@ justify-content: center;
 /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
 @media screen and (max-width: 600px) {
   .dropdown__menu {
-      top: 3rem;
-      right: 3.5rem;
+      top: 2.5rem;
+      right: 1.5rem;
   }
 
 }
 
+@media only screen and (max-width: 550px){
+  
+
+
+
+.menu__content {
+  width: 95%;
+  height: 100%;
+  float: right;
+  display: grid;
+  place-items: center;
+  
+}
+
+.menu__items {
+margin-left: auto;
+margin-right: auto;
+display: table;
+box-shadow:
+-40px -40px 0 -35px yellow,
+40px 40px 0 -35px yellow;
+width: 35vh;
+padding: 5%;
+}
+
+.link__item {
+  font-size: 5vw;
+  color: white;
+  font-weight: 100;
+  font-family: 'Lexend Exa', sans-serif;
+  margin: 5%;
+  letter-spacing: 0.2em;
+  margin-top: 10%;
+}
+
+
+
+
+
+}

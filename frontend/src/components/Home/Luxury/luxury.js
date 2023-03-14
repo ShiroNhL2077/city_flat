@@ -9,7 +9,7 @@ function luxury() {
         
           <div className="">
             <div className="title">
-              <p className="title__luxury">Luxury</p>
+              <p className="title__luxury">LUXURY</p>
             </div>
             <div className="line-in-middle"></div>
             <div className="luxury__content">

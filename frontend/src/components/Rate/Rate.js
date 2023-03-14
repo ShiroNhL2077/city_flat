@@ -22,9 +22,9 @@ function Rate({ count, rating, color, onRating }) {
       .map((idx) => (
         <FontAwesomeIcon
           key={idx}
-          className="cursor-pointer"
+          className="cursor-pointer fa-1x"
           icon={faStar}
-          style = {{color: getColor(idx)}}
+          style = {{color: getColor(idx) , marginBottom:"2vh"}}
           onClick={() => onRating(idx)}
           onMouseEnter={() => setHoverRating(idx)}
           onMouseLeave={() => setHoverRating(0)}

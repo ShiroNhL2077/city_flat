@@ -1,10 +1,11 @@
 .luxurious_collection_items {
     background-color: black;
     min-height: 100%;
-    padding-bottom: 3%;
+    padding-right: 4%;
     position: relative;
     display: flex;
     flex-direction: column;
+   
 }
 
 .luxurious_collection_items_title h2 {
@@ -17,12 +18,14 @@
 .left_item {
     width: 50%;
     float: left;
-    padding: 5%;
+    padding: 4%;
+    
 }
 
 .right_item {
     width: 50%;
     float: right;
+    padding: 4%;
 }
 
 .card_img{
@@ -66,3 +69,25 @@ height: 50%;
     color: #EB2733;
 }
 
+@media screen and (max-width:780px) {
+
+    .left_item {
+        width: 100%;
+    }
+    .right_item {
+        width: 100%;
+        
+    }
+
+    .card_content h3 {
+        font-family: 'Lexend Mega', sans-serif;
+        font-size: 3.5vw !important;
+     }
+    
+     .card_content p {
+        font-family: font-alethia-pro;
+        font-weight: 10 !important;
+        font-size: 2.5vw;
+     }
+    
+}
