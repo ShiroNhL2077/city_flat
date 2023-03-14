@@ -4,92 +4,104 @@ import "./signup.css";
 function signup() {
   return (
     <div className="signupPage ">
-    <div className="header-signup">
-      <div className="Logo">
-        <img
-          src="../logo-variation-plan-de-travail-1-copie-1@2x.png"
-          alt="logo"
-          className="companyLogo"
-        />
-      </div>
-    </div>
-    <hr className="separation" />
-    <div className="signupBox">
-      <div className="row">
-        <div className="col-md-6 side-image">
-          <img src="./rarchitecturet6d96qrb5myunsplash-1@2x.png" alt="" />
-        </div>
-        <div className="col-md-6 right">
-          <div className="input-box">
-            <h1 className="welcome">WELCOME</h1>
-            <h3 className="signin-text">Sign up</h3>
-
-            <div className="input-field">
-              <input
-                type="text"
-                className="input"
-                id="email"
-                required
-              />
-              <label htmlFor="password">Your name</label>
-            </div>
-
-            <div className="input-field">
-              <input
-                type="text"
-                className="input"
-                id="email"
-                required
-              />
-              <label htmlFor="password">Email or password</label>
-            </div>
-
-            <div className="input-field">
-              <input
-                type="password"
-                className="input"
-                id="password"
-                required
-              />
-              <label htmlFor="password">Password</label>
-            </div>
-
-            <div className="remember-me">
+    <main>
+        <div className="box">
+          <div className="inner-box">
+            <div className="forms-wrap">
               
-              <input type="checkbox" className="form-check-input" /> <span>By creating an account, you agree to our</span>
-        <strong className="terms"> terms</strong>
-        <span>{` and `}</span>
-        <strong className="terms">privacy policy</strong>
+              <form
+                action="index.html"
+                autoComplete="off"
+                className="sign__up__form"
+              >
+                <div className="cityflat_logo"><img alt ="" src="./logo-cityflat.png"/></div>
+
+                <div className="heading">
+                  <h2>WELCOME</h2>
+                  <h4>Signup to your account</h4>
+                </div>
+
+                <div className="actual-form">
+                <div className="input-wrap">
+                    <label className="label-form">Your name</label>
+                    <input
+                      type="text"
+                      minLength="4"
+                      className="input-field"
+                      autoComplete="off"
+                      required
+                    />
+                  </div>
+                  <div className="input-wrap">
+                    <label className="label-form">Email or phone number</label>
+                    <input
+                      type="text"
+                      minLength="4"
+                      className="input-field"
+                      autoComplete="off"
+                      required
+                    />
+                  </div>
+
+                  <div className="input-wrap">
+                    <label className="label-form">Password</label>
+                    <input
+                      type="password"
+                      minLength="4"
+                      className="input-field"
+                      autoComplete="off"
+                      required
+                    />
+                  </div>
+                  <div className="reset__options">
+                    <div className="remember-me">
+                      {" "}
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                      /><span>By creating an account, you agree to our</span>
+                      <strong className="terms"> terms</strong>
+                      <span>{` and `}</span>
+                      <strong className="terms">privacy policy</strong>
+                    </div>
+                  </div>
+                  <input type="submit" value="SIGN UP" className="sign-btn" />
+                </div>
+              </form>
+              <div className="separators">
+                <hr className="seperator left" /> OR
+                <hr className="seperator right" />
+              </div>
+
+              <div className="social-container">
+                <a href="#/" className="social">
+                  <img src="./vector.svg" alt="" size="2x" />
+                </a>
+                <a href="#/" className="social">
+                  <img src="./google--original.svg" alt="" size="2x" />
+                </a>
+                <a href="#/" className="social">
+                  <img src="./apple--original.svg" alt="" size="2x" />
+                </a>
+              </div>
+              <div className="signup">
+                <span>
+                  You  have an account?{" "}
+                  <a href="/login">Login now</a>
+                </span>
+              </div>
             </div>
-        
-            <div className='signup-button'>
-            <a href="/"><input type="submit" className="submit" value="SIGN UP" /></a>
-            </div>
-            <div className="separators">
-              <hr className="seperator left" /> OR
-              <hr className="seperator right" />
-            </div>
-            <div className="social-container">
-              <a href="www.facebook.com" className="social">
-                <img src="./vector.svg" alt="" size="2x" />
-              </a>
-              <a href="www.google.com" className="social">
-                <img src="./google--original.svg" alt="" size="2x" />
-              </a>
-              <a href="www.apple.com" className="social">
-                <img src="./apple--original.svg" alt="" size="2x" />
-              </a>
-            </div>
-            <div className="login">
-              <span>
-                You already have an account?
-                <a href="/login"> Login to your account</a>
-              </span>
+
+            <div className="carousel">
+             
+
+              <div className="logo">
+               <img alt ="" src="./logo-cityflat.png"/>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </main>
   </div>
   )
 }

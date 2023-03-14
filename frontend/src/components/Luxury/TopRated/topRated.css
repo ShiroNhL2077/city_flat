@@ -1,9 +1,10 @@
 .top_rated_page {
     background-color: black;
+    min-height: 100%;
+    padding-bottom: 3%;
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
 }
 
 .top__container {
@@ -162,7 +163,7 @@ a.button1:hover {
 }
 
 @media only screen and (max-width:912px) {
-    .right__side__content {
+        .right__side__content {
         padding-top: 10%;
         text-align: center;
     }

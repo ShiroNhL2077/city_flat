@@ -1,11 +1,10 @@
 .luxurious_collection_items {
     background-color: black;
     min-height: 100%;
-    padding-right: 4%;
+    padding-bottom: 3%;
     position: relative;
     display: flex;
     flex-direction: column;
-   
 }
 
 .luxurious_collection_items_title h2 {
