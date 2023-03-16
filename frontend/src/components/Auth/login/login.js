@@ -87,7 +87,7 @@ function login() {
 
             <div className="carousel">
               <div className="logo">
-                <img alt="" src="./logo-cityflat.png" />
+                <img alt="" src="./logo-cityflat.png" className="logo_city_flat" />
               </div>
             </div>
           </div>
