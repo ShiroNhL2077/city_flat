@@ -2,9 +2,9 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 import Rate from '../../Rate/Rate';
-import './luxuriouCollection.css'
+import './StandardCollection.css'
 
-function LuxuriousCollection() {
+function StandardCollection() {
   const [rating1, setRating1] = useState(0);
   const [rating2, setRating2] = useState(0);
   const [rating3, setRating3] = useState(0);
@@ -12,13 +12,13 @@ function LuxuriousCollection() {
   const [rating5, setRating5] = useState(0);
   const [rating6, setRating6] = useState(0);
   return (
-    <section className="luxury__collection__page">
-      <div className="luxury_collection_items_title">
-        <h2>OUR PREMIUM COLLECTION</h2>
+    <section className="standard__collection__page">
+      <div className="standard_collection_items_title">
+        <h2>OUR STANDARD COLLECTION</h2>
         <div className="line-in-middle"></div>
       </div>
-      <div className="luxury_collection_items_content">
-      <div className="luxury_collection_content">
+      <div className="standard_collection_items_content">
+      <div className="standard_collection_content">
         <div className="row">
           <div className="col">
             {" "}
@@ -31,16 +31,16 @@ function LuxuriousCollection() {
                 />
               </div>
               <div className="card_body">
-                <div className="like_button_luxury">
+                <div className="like_button_standard">
                   <button>
                     <FontAwesomeIcon
                       icon={faHeart}
                       beat
-                      className="highlight_luxury"
+                      className="highligh_standard"
                     />
                   </button>
                 </div>
-                <div className="card_content_luxury">
+                <div className="card_content_standard">
                   <h3>APARTMENT NAME</h3>
                   <p>Description about the house and stuff</p>
                   <Rate
@@ -62,16 +62,16 @@ function LuxuriousCollection() {
                 />
               </div>
               <div className="card_body">
-                <div className="like_button_luxury">
+                <div className="like_button_standard">
                   <button>
                     <FontAwesomeIcon
                       icon={faHeart}
                       beat
-                      className="highlight"
+                      className="highlight_standard"
                     />
                   </button>
                 </div>
-                <div className="card_content">
+                <div className="card_content_standard">
                   <h3>APARTMENT NAME</h3>
                   <p>Description about the house and stuff</p>
                   <Rate
@@ -96,16 +96,16 @@ function LuxuriousCollection() {
                 />
               </div>
               <div className="card_body">
-                <div className="like_button">
+                <div className="like_button_standard">
                   <button>
                     <FontAwesomeIcon
                       icon={faHeart}
                       beat
-                      className="highlight fa-2x"
+                      className="highlight_standard "
                     />
                   </button>
                 </div>
-                <div className="card_content">
+                <div className="card_content_standard">
                   <h3>APARTMENT NAME</h3>
                   <p>Description about the house and stuff</p>
                   <Rate
@@ -127,12 +127,12 @@ function LuxuriousCollection() {
                 />
               </div>
               <div className="card_body">
-                <div className="like_button">
+                <div className="like_button_standard">
                   <button>
                     <FontAwesomeIcon
                       icon={faHeart}
                       beat
-                      className="highlight"
+                      className="highlight_standard"
                     />
                   </button>
                 </div>
@@ -161,16 +161,16 @@ function LuxuriousCollection() {
                 />
               </div>
               <div className="card_body">
-                <div className="like_button">
+                <div className="like_button_standard">
                   <button>
                     <FontAwesomeIcon
                       icon={faHeart}
                       beat
-                      className="highlight fa-2x"
+                      className="highlight_standard "
                     />
                   </button>
                 </div>
-                <div className="card_content">
+                <div className="card_content_standard">
                   <h3>APARTMENT NAME</h3>
                   <p>Description about the house and stuff</p>
                   <Rate
@@ -192,16 +192,16 @@ function LuxuriousCollection() {
                 />
               </div>
               <div className="card_body">
-                <div className="like_button">
+                <div className="like_button_standard">
                   <button>
                     <FontAwesomeIcon
                       icon={faHeart}
                       beat
-                      className="highlight"
+                      className="highlight_standard"
                     />
                   </button>
                 </div>
-                <div className="card_content">
+                <div className="card_content_standard">
                   <h3>APARTMENT NAME</h3>
                   <p>Description about the house and stuff</p>
                   <Rate
@@ -220,4 +220,4 @@ function LuxuriousCollection() {
   );
 }
 
-export default LuxuriousCollection
+export default StandardCollection

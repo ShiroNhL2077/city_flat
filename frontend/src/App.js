@@ -12,6 +12,7 @@ import Signup from "./components/Auth/signup/signup";
 import Homepage from "./Pages/Homepage";
 import LuxuryPage from "./Pages/LuxuryPage";
 import PremiumPage from "./Pages/PremiumPage";
+import StandardPage from "./Pages/StandardPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Homepage/>}/>
         <Route path="/luxury" element={<LuxuryPage/>}/>
         <Route path="/premium" element={<PremiumPage/>}/>
+        <Route path="/standard" element={<StandardPage/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
       </Routes>
