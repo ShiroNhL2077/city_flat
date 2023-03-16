@@ -11,6 +11,7 @@ import Login from "./components/Auth/login/login";
 import Signup from "./components/Auth/signup/signup";
 import Homepage from "./Pages/Homepage";
 import LuxuryPage from "./Pages/LuxuryPage";
+import PremiumPage from "./Pages/PremiumPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage/>}/>
         <Route path="/luxury" element={<LuxuryPage/>}/>
+        <Route path="/premium" element={<PremiumPage/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
       </Routes>

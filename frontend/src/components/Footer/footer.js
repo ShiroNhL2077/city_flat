@@ -7,8 +7,8 @@ function footer() {
   return (
     <div className='footer__page'>
     <footer className="footer__content">
-      <div className="footer_row">
-        <div className="col-md mb-4 mb-md-0">
+      <div className="footer_row row">
+        <div className="col footer_col">
           <h3>COMPANY</h3>
           <ul className="list-unstyled nav-links">
             <li><a href="#">About us</a></li>
@@ -17,7 +17,7 @@ function footer() {
             <li><a href="#">Testimonial</a></li>
           </ul>
         </div>
-        <div className="col-md mb-4 mb-md-0">
+        <div className="col footer_col">
           <h3>RESOURCES</h3>
           <ul className="list-unstyled nav-links">
             <li><a href="#">Privacy Policy</a></li>
@@ -26,7 +26,7 @@ function footer() {
             <li><a href="#">Contact Us</a></li>
           </ul>
         </div>
-        <div className="col-md mb-4 mb-md-0">
+        <div className="col footer_col">
           <h3>PRODUCT</h3>
           <ul className="list-unstyled nav-links">
             <li><a href="#">Project Managment</a></li>
@@ -36,7 +36,7 @@ function footer() {
             <li><a href="#">Remote Collaboration</a></li>
           </ul>
         </div>
-        <div className="col-md-4 mb-4 mb-md-0 subscribe__content">
+        <div className="col footer_col subscribe__content">
           <h3>CITY FLAT</h3>
           <p className="mb-4">Subscribe to our Newsletter</p>
           <form action="#" className="subscribe">

@@ -1,20 +1,21 @@
-import React from 'react'
+import React from "react";
 import "./signup.css";
 
 function signup() {
   return (
     <div className="signupPage ">
-    <main>
+      <main>
         <div className="box">
           <div className="inner-box">
             <div className="forms-wrap">
-              
               <form
                 action="index.html"
                 autoComplete="off"
                 className="sign__up__form"
               >
-                <div className="cityflat_logo"><img alt ="" src="./logo-cityflat.png"/></div>
+                <div className="cityflat_logo">
+                  <img alt="" src="./logo-cityflat.png" />
+                </div>
 
                 <div className="heading">
                   <h2>WELCOME</h2>
@@ -22,7 +23,7 @@ function signup() {
                 </div>
 
                 <div className="actual-form">
-                <div className="input-wrap">
+                  <div className="input-wrap">
                     <label className="label-form">Your name</label>
                     <input
                       type="text"
@@ -56,10 +57,8 @@ function signup() {
                   <div className="reset__options">
                     <div className="remember-me">
                       {" "}
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                      /><span>By creating an account, you agree to our</span>
+                      <input type="checkbox" className="form-check-input" />
+                      <span> By creating an account, you agree to our</span>
                       <strong className="terms"> terms</strong>
                       <span>{` and `}</span>
                       <strong className="terms">privacy policy</strong>
@@ -69,7 +68,8 @@ function signup() {
                 </div>
               </form>
               <div className="separators">
-                <hr className="seperator left" /> OR
+                <hr className="seperator left" />{" "}
+                <b style={{ fontFamily: "font-alethia-pro" }}>OR</b>
                 <hr className="seperator right" />
               </div>
 
@@ -86,24 +86,21 @@ function signup() {
               </div>
               <div className="signup">
                 <span>
-                  You  have an account?{" "}
-                  <a href="/login">Login now</a>
+                  You have an account? <a href="/login">Login now</a>
                 </span>
               </div>
             </div>
 
             <div className="carousel">
-             
-
               <div className="logo">
-               <img alt ="" src="./logo-cityflat.png"/>
+                <img alt="" src="./logo-cityflat.png" />
               </div>
             </div>
           </div>
         </div>
       </main>
-  </div>
-  )
+    </div>
+  );
 }
 
-export default signup
+export default signup;

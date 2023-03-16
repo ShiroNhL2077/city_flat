@@ -19,7 +19,7 @@ function TopRated() {
           <strong>120€</strong>
           </div>
           <div className="more__details__button">
-          <a href="something" className="button1">MORE DETAILS</a>
+          <a href="something" className="button1"><button type="button" class="btn btn-outline-dark">Dark</button></a>
         </div>
         </div>
       </div>

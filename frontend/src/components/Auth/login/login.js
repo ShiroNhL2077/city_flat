@@ -8,13 +8,14 @@ function login() {
         <div className="box">
           <div className="inner-box">
             <div className="forms-wrap">
-              
               <form
                 action="index.html"
                 autoComplete="off"
                 className="log-in-form"
               >
-                <div className="cityflat_logo"><img alt ="" src="./logo-cityflat.png"/></div>
+                <div className="cityflat_logo">
+                  <img alt="" src="./logo-cityflat.png" />
+                </div>
 
                 <div className="heading">
                   <h2>WELCOME</h2>
@@ -60,7 +61,8 @@ function login() {
                 </div>
               </form>
               <div className="separators">
-                <hr className="seperator left" /> OR
+                <hr className="seperator left" />{" "}
+                <b style={{ fontFamily: "font-alethia-pro" }}>OR</b>
                 <hr className="seperator right" />
               </div>
 
@@ -84,10 +86,8 @@ function login() {
             </div>
 
             <div className="carousel">
-             
-
               <div className="logo">
-               <img alt ="" src="./logo-cityflat.png"/>
+                <img alt="" src="./logo-cityflat.png" />
               </div>
             </div>
           </div>

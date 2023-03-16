@@ -55,7 +55,7 @@ main {
   transition: 0.8s ease-in-out;
 }
 
-form {
+.log-in-form {
   max-width: 80%;
   width: 100%;
   margin: 0 auto;
@@ -374,7 +374,7 @@ main.sign-up-mode .carousel {
     height: auto;
   }
 
-  form {
+  .log-in-form {
     max-width: revert;
     padding: 1.5rem 2.5rem 2rem;
     transition: transform 0.8s ease-in-out, opacity 0.45s linear;
@@ -391,7 +391,7 @@ main.sign-up-mode .carousel {
     width: 40%;
     margin-right: 0.3rem;
   }
-  form.sign-up-form {
+  .form.sign-up-form {
     transform: translateX(100%);
   }
 
@@ -474,7 +474,7 @@ span{
     font-size: 1.2rem;
   }
 
-  form {
+  .log-in-form {
     padding: 1rem 2rem 1.5rem;
   }
 }
