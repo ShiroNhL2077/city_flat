@@ -92,7 +92,7 @@ function signup() {
             </div>
 
             <div className="carousel_login">
-              <div className="logo">
+              <div className="">
                 <img alt="" src="./logo-cityflat.png" />
               </div>
             </div>
