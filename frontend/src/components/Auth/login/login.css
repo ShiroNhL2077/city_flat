@@ -217,11 +217,11 @@ main.sign-up-mode .forms-wrap {
   left: 55%;
 }
 
-main.sign-up-mode .carousel {
+main.sign-up-mode .carousel_login {
   left: 0%;
 }
 
-.carousel {
+.carousel_login {
   position: absolute ;
   height: 100%;
   width: 55%;
@@ -349,7 +349,7 @@ main.sign-up-mode .carousel {
     color: #000;
   }
 
-  .carousel {
+  .carousel_login {
     display: none;
   }
 
@@ -462,7 +462,7 @@ span{
     padding: 1rem;
   }
 
-  .carousel {
+  .carousel_login {
     display: none;
   }
 
@@ -499,7 +499,7 @@ span{
     color: #000;
   }
 
-  .carousel {
+  .carousel_login {
     display: none;
   }
 

@@ -74,7 +74,7 @@ function Navbar() {
                     </li>
                     <li>
                       {" "}
-                      <a href="/whishlist" className="link__item">
+                      <a href="/wishlist" className="link__item">
                         WISHLIST
                       </a>
                     </li>
@@ -117,7 +117,7 @@ function Navbar() {
             <div className="dropdown__list">
               <button className="button-31">Messages</button>
               <button className="button-31">Notifications</button>
-              <button className="button-31">Whishlist</button>
+              <a href="/wishlist"><button className="button-31">Wishlist</button></a>
               <hr />
               <button className="button-31">Account</button>
               <button className="button-31">Help</button>

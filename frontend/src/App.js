@@ -13,6 +13,8 @@ import Homepage from "./Pages/Homepage";
 import LuxuryPage from "./Pages/LuxuryPage";
 import PremiumPage from "./Pages/PremiumPage";
 import StandardPage from "./Pages/StandardPage";
+import ThankyouPage from "./components/Thankyou/ThankyouPage";
+import Wishlist from "./components/Wishlist/Wishlist";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/luxury" element={<LuxuryPage/>}/>
         <Route path="/premium" element={<PremiumPage/>}/>
         <Route path="/standard" element={<StandardPage/>}/>
+        <Route path="/thankyou" element={<ThankyouPage/>}/>
+        <Route path="/wishlist" element={<Wishlist/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
       </Routes>
