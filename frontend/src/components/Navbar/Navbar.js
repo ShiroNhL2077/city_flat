@@ -18,7 +18,6 @@ function Navbar() {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpenProfile(false);
-        console.log(menuRef.current);
       }
     };
 

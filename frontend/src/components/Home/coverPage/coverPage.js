@@ -13,7 +13,6 @@ function CoverPage() {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpenFilter(false);
-        console.log(menuRef.current);
       }
     };
 
@@ -51,8 +50,10 @@ function CoverPage() {
                 <FontAwesomeIcon icon={faFilter} />
               </button>
             </form>
+            <div className="filter-container" ref={menuRef}>
             {openFilter && (
               <div
+              
                 className={` flex flex-col gap-4 filter__menu ${
                   openFilter ? "active" : "inactive"
                 }`}
@@ -123,6 +124,8 @@ function CoverPage() {
                 </div>
               </div>
             )}
+            </div>
+            
             <div className="scroll__down">
               <p>SCROLL DOWN</p>
             </div>

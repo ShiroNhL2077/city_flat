@@ -11,36 +11,34 @@ function Wishlist() {
       <div className="content_page">
         <div className="upper__space"></div>
         <div className="upper__space wishlist_title">
-            <h1>WISHLIST</h1>
+          <h1>WISHLIST</h1>
         </div>
         <div className="wishlist__body">
           <div className="wishlist__content">
             <div className="row pb-5">
               <div className="col">
-                <CarouselPage/>
+                <CarouselPage />
               </div>
               <div className="col wishlist_description">
                 <h1>LIST NAME</h1>
               </div>
             </div>
             <div className="row pb-5">
-                              <div className="col wishlist_description">
+              <div className="col wishlist_description">
                 <h1>LIST NAME</h1>
               </div>
               <div className="col">
-                <CarouselPage/>
+                <CarouselPage />
               </div>
-
             </div>
             <div className="row pb-5">
               <div className="col">
-                <CarouselPage/>
+                <CarouselPage />
               </div>
               <div className="col wishlist_description">
                 <h1>LIST NAME</h1>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
