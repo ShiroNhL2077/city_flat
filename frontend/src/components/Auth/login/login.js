@@ -14,6 +14,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [isLoggedin, setIsLoggedin] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ function Login() {
     AuthService.login(email, password).then(
       () => {
         setSuccessMsg(true);
+        setIsLoggedin(true);
         navigate('/');
 
       },

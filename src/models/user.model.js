@@ -29,7 +29,10 @@ const UserSchema = new Schema({
         type: String,
       },
   
-    BirthDate: { type: Date, },
+    BirthDate: { 
+        type: Date, 
+        required:true
+    },
     role: {
         type: String,
         enum: [ROLE.ADMIN, ROLE.USER],

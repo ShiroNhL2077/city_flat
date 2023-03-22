@@ -1,7 +1,103 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { isEmail, isStrongPassword } from "validator";
+import AuthService from "../../../services/Auth.services";
+
 import "./signup.css";
 
-function signup() {
+/*==============Validations==============*/
+
+//email validation check
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div className="invalid-feedback d-block">This is not a valid email.</div>
+    );
+  }
+};
+
+//username validation check
+const vname = (value) => {
+  if (value.length < 4 || value.length > 20) {
+    return (
+      <div className="invalid-feedback d-block">
+        The username must be between 4 and 20 characters.
+      </div>
+    );
+  }
+};
+
+//password validation check
+const vpassword = (value) => {
+  if (!isStrongPassword(value)) {
+    return (
+      <div className="invalid-feedback d-block">
+        <ol>
+          <li>The password must have at least 8 characters.</li>
+          <li>The password must contain at least 1 lowercase.</li>
+          <li>The password must contain at least 1 uppercase.</li>
+          <li>The password must contain at least 1 symbole.</li>
+          <li>The password must contain at least 1 number.</li>
+        </ol>
+      </div>
+    );
+  }
+};
+
+/*==============End Validations==============*/
+
+function Signup() {
+  const userRef = useRef();
+  const errRef = useRef();
+  const navigate=useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [successful, setSuccessful] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const onChangeName = (e) => {
+    const name = e.target.value;
+    setName(name);
+  };
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    AuthService.register(
+      name,
+      email,
+      password,
+    ).then(
+      (response) => {
+        setMessage(response.data.message);
+        setSuccessful(true);
+        navigate('/');
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setMessage(resMessage);
+        setSuccessful(false);
+      }
+    );
+  }
   return (
     <div className="signupPage ">
       <main>
@@ -9,14 +105,21 @@ function signup() {
           <div className="inner-box">
             <div className="forms-wrap">
               <form
-                action="index.html"
                 autoComplete="off"
                 className="sign__up__form"
+                onSubmit={handleRegister} ref={userRef}
               >
                 <div className="cityflat_logo">
                   <img alt="" src="./logo-cityflat.png" />
                 </div>
-
+                    {/** error message */}
+                    <p
+                      ref={errRef}
+                      className={errMsg ? "errmsg" : "offscreen"}
+                      aria-live="assertive"
+                    >
+                      {errMsg}
+                    </p>
                 <div className="heading">
                   <h2>WELCOME</h2>
                   <h4>Signup to your account</h4>
@@ -24,20 +127,24 @@ function signup() {
 
                 <div className="actual-form">
                   <div className="input-wrap">
-                    <label className="label-form">Your name</label>
+                    <label className="label-form" htmlFor="name">Your name</label>
                     <input
                       type="text"
+                      id="name"
                       minLength="4"
+                      onChange={onChangeName}
                       className="input-field"
                       autoComplete="off"
                       required
                     />
                   </div>
                   <div className="input-wrap">
-                    <label className="label-form">Email or phone number</label>
+                    <label className="label-form" htmlFor="email">Email</label>
                     <input
-                      type="text"
+                      type="email"
+                      id="email"
                       minLength="4"
+                      onChange={onChangeEmail}
                       className="input-field"
                       autoComplete="off"
                       required
@@ -45,10 +152,12 @@ function signup() {
                   </div>
 
                   <div className="input-wrap">
-                    <label className="label-form">Password</label>
+                    <label className="label-form" htmlFor="password">Password</label>
                     <input
                       type="password"
+                      id="password"
                       minLength="4"
+                      onChange={onChangePassword}
                       className="input-field"
                       autoComplete="off"
                       required
@@ -103,4 +212,4 @@ function signup() {
   );
 }
 
-export default signup;
+export default Signup;
