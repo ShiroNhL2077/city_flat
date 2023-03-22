@@ -15,6 +15,8 @@ import morgan from 'morgan';
 import { userRouter } from './routes/user.routes.js';
 import { appartmentRouter } from './routes/appartment.routes.js';
 import { paypalRouter} from './routes/paypal.routes.js';
+import startNotificationCleanup from "./utils/notificationCleanup.js";
+import bookedDatesCleanup from "./utils/bookedDatesCleanup.js";
 
 import dotenv from 'dotenv';
 
@@ -52,7 +54,9 @@ Passport();
 /* Handling different sockets */
 handleSockets();
 
-
+//cron Jobs
+startNotificationCleanup();
+bookedDatesCleanup();
 
 app.use(passport.initialize());
 app.use(passport.session());

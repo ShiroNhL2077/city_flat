@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { ROLE } from '../models/user.enums.js';
-
+import validator from 'validator';
 export function ensureUser(req, res, next) {
     try {
         //console.log(req.headers.authorization);
@@ -67,6 +67,33 @@ export function ensureAdmin(req, res, next) {
             error: new Error('Invalid request!'),
         });
     }
+}
+
+
+
+export function validateLogin(req, res, next) {
+  const { email, password } = req.body;
+
+  // Check that the email and password are not empty
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required.' });
+  }
+
+  // Check that the email is a valid email address
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ message: 'Invalid email address.' });
+  }
+
+  
+   if (password.length > 100) {
+    return res.status(400).json({ message: 'Password must be less than 100 characters.' });
+  }
+ 
+  if (email.length > 100) {
+    return res.status(400).json({ message: 'Email must be less than 256 characters.' });
+  }
+
+  next();
 }
 
 
