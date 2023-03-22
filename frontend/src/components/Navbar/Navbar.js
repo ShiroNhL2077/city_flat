@@ -7,10 +7,16 @@ import {
   faUserCircle,
   faClose,
 } from "@fortawesome/free-solid-svg-icons";
+import AuthService from "../../services/Auth.services";
+import { useNavigate } from "react-router";
 
 function Navbar() {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const navigate=useNavigate();
+  const currentUser = AuthService.getCurrentUser();
+
+  
 
   let menuRef = useRef();
 
@@ -27,6 +33,12 @@ function Navbar() {
       document.removeEventListener("mousedown", handler);
     };
   });
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user");
+    navigate('/login');
+  }
 
   return (
     <nav className="nav">
@@ -110,7 +122,7 @@ function Navbar() {
                 <img src="./avatar.png" alt="profile pic" />
               </div>
               <div className="user__name">
-                <p>USER NAME</p>
+                <p>{currentUser.name}</p>
               </div>
             </div>
             <div className="dropdown__list">
@@ -120,7 +132,7 @@ function Navbar() {
               <hr />
               <button className="button-31">Account</button>
               <button className="button-31">Help</button>
-              <a href="/login"><button className="button-31">Logout</button></a>
+              <button className="button-31" onClick={handleLogout}>Logout</button>
             </div>
           </div>
         )}
