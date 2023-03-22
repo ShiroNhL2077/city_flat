@@ -45,7 +45,7 @@ const UserSchema = new Schema(
       },
     },
     number: {
-      type: String,
+      type: Number,
       required: false,
       unique: true,
       validate: {
