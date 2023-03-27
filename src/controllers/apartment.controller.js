@@ -244,7 +244,6 @@ function appartFormat(appartment) {
        rooms: appartment.rooms,
        reviews: appartment.reviews,
        services: appartment.services,
-      
        img: appartment.img,
  
     };
