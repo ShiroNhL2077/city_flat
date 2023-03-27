@@ -1,6 +1,8 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 import Rate from '../../Rate/Rate';
 import './luxuriouCollection.css'
 
@@ -11,6 +13,21 @@ function LuxuriousCollection() {
   const [rating4, setRating4] = useState(0);
   const [rating5, setRating5] = useState(0);
   const [rating6, setRating6] = useState(0);
+
+  const [apartments, setApartments] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9090/appartments/getAllAppart")
+      .then((result) => {
+        console.log(result.data);
+        setApartments(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+
+
   return (
     <section className="luxury__collection__page">
       <div className="luxury_collection_items_title">
@@ -20,7 +37,9 @@ function LuxuriousCollection() {
       <div className="luxury_collection_items_content">
       <div className="luxury_collection_content">
         <div className="row">
-          <div className="col">
+        {apartments.map((data) => {
+          return(
+          <div className="col-sm-6" key={data.id}>
             {" "}
             <div className="card">
               <div className="card_img">
@@ -41,178 +60,19 @@ function LuxuriousCollection() {
                   </button>
                 </div>
                 <div className="card_content_luxury">
-                  <h3>APARTMENT NAME</h3>
-                  <p>Description about the house and stuff</p>
+                  <h3>{data.name}</h3>
+                  <p>{data.description}</p>
                   <Rate
                     rating={rating2}
                     onRating={(rate) => setRating2(rate)}
                   />
-                  <strong>120€</strong>
+                  <strong>{data.pricePerNight}€</strong>
+                  <strong>{data.type}</strong>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col">
-          <div className="card">
-              <div className="card_img">
-                <img
-                  src="./luxury-apartments.png"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card_body">
-                <div className="like_button_luxury">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      beat
-                      className="highlight"
-                    />
-                  </button>
-                </div>
-                <div className="card_content">
-                  <h3>APARTMENT NAME</h3>
-                  <p>Description about the house and stuff</p>
-                  <Rate
-                    rating={rating3}
-                    onRating={(rate) => setRating3(rate)}
-                  />
-                  <strong>120€</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {" "}
-            <div className="card">
-              <div className="card_img">
-                <img
-                  src="./luxury-apartments.png"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card_body">
-                <div className="like_button">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      beat
-                      className="highlight fa-2x"
-                    />
-                  </button>
-                </div>
-                <div className="card_content">
-                  <h3>APARTMENT NAME</h3>
-                  <p>Description about the house and stuff</p>
-                  <Rate
-                    rating={rating4}
-                    onRating={(rate) => setRating4(rate)}
-                  />
-                  <strong>120€</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-          <div className="card">
-              <div className="card_img">
-                <img
-                  src="./luxury-apartments.png"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card_body">
-                <div className="like_button">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      beat
-                      className="highlight"
-                    />
-                  </button>
-                </div>
-                <div className="card_content">
-                  <h3>APARTMENT NAME</h3>
-                  <p>Description about the house and stuff</p>
-                  <Rate
-                    rating={rating5}
-                    onRating={(rate) => setRating5(rate)}
-                  />
-                  <strong>120€</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {" "}
-            <div className="card">
-              <div className="card_img">
-                <img
-                  src="./luxury-apartments.png"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card_body">
-                <div className="like_button">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      beat
-                      className="highlight fa-2x"
-                    />
-                  </button>
-                </div>
-                <div className="card_content">
-                  <h3>APARTMENT NAME</h3>
-                  <p>Description about the house and stuff</p>
-                  <Rate
-                    rating={rating6}
-                    onRating={(rate) => setRating6(rate)}
-                  />
-                  <strong>120€</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-          <div className="card">
-              <div className="card_img">
-                <img
-                  src="./luxury-apartments.png"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card_body">
-                <div className="like_button">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      beat
-                      className="highlight"
-                    />
-                  </button>
-                </div>
-                <div className="card_content">
-                  <h3>APARTMENT NAME</h3>
-                  <p>Description about the house and stuff</p>
-                  <Rate
-                    rating={rating1}
-                    onRating={(rate) => setRating1(rate)}
-                  />
-                  <strong>120€</strong>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div>);
+          })}
         </div>
       </div>
       </div>
