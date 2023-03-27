@@ -36,7 +36,7 @@ function luxury() {
                       that will leave you feeling pampered and indulged.
                     </p>
                   </div>
-                  <button className="btn btn-outline-warning discover__button">DISCOVER MORE</button>
+                  <a href="/luxury"><button className="btn btn-outline-warning discover__button">DISCOVER MORE</button></a>
                 </div>
               </div>
               <div className="description__image">

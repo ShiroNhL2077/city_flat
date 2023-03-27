@@ -39,9 +39,9 @@ function premium() {
                     experience that is sure to exceed your expectations.
                   </p>
                 </div>
-                <button className="btn btn-outline-warning discover__button">
+                <a href="/premium"><button className="btn btn-outline-warning discover__button">
                   DISCOVER MORE
-                </button>
+                </button></a>
               </div>
             </div>
           </div>

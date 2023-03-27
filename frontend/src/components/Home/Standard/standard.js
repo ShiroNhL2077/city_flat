@@ -33,9 +33,9 @@ function standard() {
                     exceed your expectations.
                   </p>
                 </div>
-                <button className="btn btn-outline-warning discover__button">
+                <a href="/standard"><button className="btn btn-outline-warning discover__button">
                   DISCOVER MORE
-                </button>
+                </button></a>
               </div>
             </div>
 
