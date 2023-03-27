@@ -206,99 +206,101 @@ console.log("total price :"+order.totalPrice);
 
                         newReservation.Card=savedcard;
 
-                     });
+                        stripe.tokens.create(
+                           {
+   
+                              card: {
+   
+                                 number: cardDetails.number,
+                                 exp_month: cardDetails.exp_month,
+                                 exp_year: cardDetails.exp_year,
+                                 cvc: cardDetails.cvc,
+                              },
+                           },
+                           function (err, token) {
+   
+                              if (err) {
+                                 return res.status(500).json({ error: err.message });
+                              }
+                              console.log(token);
+                              addCard(customerId, token.id)
+                                 .then((card) => {
+                                    console.log(card);
+                                    // Check if the card is not null before creating the payment intent
+                                    if (card) {
+   
+                                       stripe.paymentMethods.create({
+                                          type: 'card',
+                                          card: {
+                                             number: cardDetails.number,
+                                             exp_month: cardDetails.exp_month,
+                                             exp_year: cardDetails.exp_year,
+                                             cvc: cardDetails.cvc,
+                                          },
+   
+                                       },
+   
+   
+                                       ).then((paymentMethod) => {
+   
+                                          stripe.paymentMethods.attach(paymentMethod.id, {
+                                             customer: customerId,
+                                          }).then((payment_method) => {
+   
+                                             findOneOrderByFilter(order.id).then((orderfound)=>{
+   
+                                                httpMakePayment(req, res, orderfound.totalPrice, customerId, newReservation._id, paymentMethod.id)
+                                                .then((paymentIntent) => {
+   
+                                                 
+   
+                                                   reservationDb.create(newReservation)
+                                                      .then((result) => {
+                                                         findOneReservationByFilter(result._id);
+                                                         updateBookedDates(newReservation.Order.appartment.id, newReservation.Order.checkIn, newReservation.Order.checkOut, res);
+                                                         sendUserReservationEmail(foundUser, newReservation, newReservation.Order.totalPrice);
+   
+   
+                                                         // Create notification for the user
+                                                         const notification = {
+                                                            user: foundUser._id,
+                                                            message: 'You have made a reservation for the '+newReservation.Order.appartment.name+' , reservation code : '+newReservation.code,
+                                                         };
+                                                         createNotification(notification)
+                                                            .catch((err) => console.error(err))
+                                                      })
+                                                      .catch((err) => res.status(500).json({ error: err}));
+                                                })
+                                                .catch((error) => res.status(500).json({ error: error.message }));
+   
+   
+                                             }) .catch((error) => res.status(500).json({ error: error.message }));
+   
+                                           
+   
+   
+   
+                                          });
+   
+   
+   
+   
+   
+                                       })
+   
+   
+                                    } else {
+                                       return res.status(400).json({ error: 'No card found for the customer.' });
+                                    }
+                                 })
+                                 .catch((error) => res.status(500).json({ error: error.message }));
+                           }
+                        );
+                        
+                     }).catch((error) => res.status(500).json({ error: error.message }));
                    
 
-                     stripe.tokens.create(
-                        {
-
-                           card: {
-
-                              number: cardDetails.number,
-                              exp_month: cardDetails.exp_month,
-                              exp_year: cardDetails.exp_year,
-                              cvc: cardDetails.cvc,
-                           },
-                        },
-                        function (err, token) {
-
-                           if (err) {
-                              return res.status(500).json({ error: err.message });
-                           }
-                           console.log(token);
-                           addCard(customerId, token.id)
-                              .then((card) => {
-                                 console.log(card);
-                                 // Check if the card is not null before creating the payment intent
-                                 if (card) {
-
-                                    stripe.paymentMethods.create({
-                                       type: 'card',
-                                       card: {
-                                          number: cardDetails.number,
-                                          exp_month: cardDetails.exp_month,
-                                          exp_year: cardDetails.exp_year,
-                                          cvc: cardDetails.cvc,
-                                       },
-
-                                    },
-
-
-                                    ).then((paymentMethod) => {
-
-                                       stripe.paymentMethods.attach(paymentMethod.id, {
-                                          customer: customerId,
-                                       }).then((payment_method) => {
-
-                                          findOneOrderByFilter(order.id).then((orderfound)=>{
-
-                                             httpMakePayment(req, res, orderfound.totalPrice, customerId, newReservation._id, paymentMethod.id)
-                                             .then((paymentIntent) => {
-
-                                              
-
-                                                reservationDb.create(newReservation)
-                                                   .then((result) => {
-                                                      findOneReservationByFilter(result._id);
-                                                      updateBookedDates(newReservation.Order.appartment.id, newReservation.Order.checkIn, newReservation.Order.checkOut, res);
-                                                      sendUserReservationEmail(foundUser, newReservation, newReservation.Order.totalPrice);
-
-
-                                                      // Create notification for the user
-                                                      const notification = {
-                                                         user: foundUser._id,
-                                                         message: 'You have made a reservation for the '+newReservation.Order.appartment.name+' , reservation code : '+newReservation.code,
-                                                      };
-                                                      createNotification(notification)
-                                                         .catch((err) => console.error(err))
-                                                   })
-                                                   .catch((err) => res.status(500).json({ error: err}));
-                                             })
-                                             .catch((error) => res.status(500).json({ error: error.message }));
-
-
-                                          })
-
-                                        
-
-
-
-                                       });
-
-
-
-
-
-                                    })
-
-
-                                 } else {
-                                    return res.status(400).json({ error: 'No card found for the customer.' });
-                                 }
-                              })
-                              .catch((error) => res.status(500).json({ error: error.message }));
-                        }
-                     );
+                    
                   })
                   .catch((error) => res.status(500).json({ error: error.message }));
             
