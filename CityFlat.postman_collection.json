@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n\r\n \"email\":\"echiferes@gmail.com\",\r\n \"password\":\"123456\"\r\n \r\n\r\n     \r\n}",
+							"raw": "{\r\n\r\n\r\n \"email\":\"elyes.kabous@esprit.tn\",\r\n \"password\":\"123456\"\r\n \r\n\r\n     \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -43,39 +43,8 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "img",
-									"type": "file",
-									"src": "/C:/Users/elyes/Pictures/Camera Roll/cv_pic (3).jpeg"
-								},
-								{
-									"key": "name",
-									"value": "wakswizz",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "elyes.kabous@esprit.tn",
-									"type": "text"
-								},
-								{
-									"key": "number",
-									"value": "526188721",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456",
-									"type": "text"
-								},
-								{
-									"key": "birthday",
-									"value": "1996-05-18",
-									"type": "text"
-								}
-							],
+							"mode": "raw",
+							"raw": "{\r\n\r\n\r\n    \"price\":150\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -83,15 +52,18 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9090/user/register",
+							"raw": "http://127.0.0.1:9090/paypal/pay",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
 							"port": "9090",
 							"path": [
-								"user",
-								"register"
+								"paypal",
+								"pay"
 							]
 						}
 					},
@@ -119,7 +91,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"appartment\":{\r\n\"name\":\"echiAppartment\",\r\n\"description\":\"wlc to echi appartment\",\r\n\"pricePerNight\":120,\r\n\"FromDate\":\"2023-02-11\",\r\n\"ToDate\":\"2023-02-22\",\r\n\"location\":\"hay nozha\",\r\n\"rooms\":4\r\n\r\n},\r\n\r\n\"description\":\"elyes reservation\",\r\n\"totalPrice\":1200,\r\n\"checkIn\":\"2023-03-15\",\r\n\"checkOut\":\"2023-03-20\",\r\n\r\n\"servicesFee\":200,\r\n\"nightsFee\":50,\r\n\"services\":[\r\n{\r\n\"name\":\"cleaning\"\r\n\r\n\r\n}\r\n\r\n\r\n]\r\n\r\n\r\n}",
+							"raw": "{\r\n  \r\n \"Order\": {\r\n    \"id\": \"6421723ad4d003e8797296cd\"\r\n    \r\n  },\r\n\r\n  \"Card\": {\r\n   \r\n      \"number\": \"4242424242424242\",\r\n      \"exp_month\": \"12\",\r\n      \"exp_year\": \"2024\",\r\n      \"cvc\": \"123\"\r\n    \r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -137,6 +109,51 @@
 								"user",
 								"reservations",
 								"addReservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create order",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n  \"Order\": {\r\n      \"isConfirmed\":false,\r\n    \"appartment\": {\r\n     \"name\": \"Tokyo appartment\",\r\n    \"description\": \"An Amazing  appartment\",\r\n    \"pricePerNight\": 120,\r\n    \"bookedDates\": [],\r\n    \"location\": \"7ayNozha \",\r\n    \"rooms\": 4\r\n    \r\n    },\r\n    \"description\": \"elyes reservation \",\r\n    \"checkIn\": \"2023-03-12\",\r\n    \"checkOut\": \"2023-03-14\",\r\n    \"servicesFee\": 150,\r\n    \"nightsFee\": 250,\r\n    \"services\": [\r\n      {\r\n        \"name\": \"cleaning\",\r\n        \"description\": \"balhzoojgg\",\r\n        \"pricePerNight\": 120\r\n      }\r\n    ]\r\n  }\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user/reservations/createOrder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user",
+								"reservations",
+								"createOrder"
 							]
 						}
 					},
@@ -1183,6 +1200,35 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "post payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/Onlinepayment/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Onlinepayment",
+						"payment"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
