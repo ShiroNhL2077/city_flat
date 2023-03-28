@@ -33,6 +33,11 @@
     position: relative;
 }
 
+.highligh_standard{
+    color: #EB2733;
+    width: 30px;
+    height: 30px;
+}
 
 .card_content_standard{
     width: 90%;

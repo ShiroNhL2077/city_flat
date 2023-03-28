@@ -122,7 +122,7 @@ function Navbar() {
                 <img src="./avatar.png" alt="profile pic" />
               </div>
               <div className="user__name">
-                <p>{currentUser.name}</p>
+                <p>USERNAME</p>
               </div>
             </div>
             <div className="dropdown__list">

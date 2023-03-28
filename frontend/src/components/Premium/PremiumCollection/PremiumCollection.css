@@ -53,9 +53,10 @@
     font-size: 1.2vw;
  }
 
-.highlight {
+ .highligh_premium{
     color: #EB2733;
-    font-size: 30px;
+    width: 30px;
+    height: 30px;
 }
 
 /* Extra small devices (phones, 600px and down) */

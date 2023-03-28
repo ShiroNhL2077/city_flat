@@ -47,7 +47,7 @@ function PremiumCollection() {
                             <FontAwesomeIcon
                               icon={faHeart}
                               beat
-                              className="highlight fa-2x"
+                              className="highligh_premium"
                             />
                           </button>
                         </div>
