@@ -107,3 +107,9 @@ position: relative;
 .no__margin{
     margin-bottom: 0% !important;
 }
+
+.custom-confirm-button{
+    background-color: black !important;
+    font-family: font-alethia-pro !important;
+    margin: 1%;
+}

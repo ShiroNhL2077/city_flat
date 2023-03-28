@@ -15,7 +15,7 @@ import PremiumPage from "./Pages/PremiumPage";
 import StandardPage from "./Pages/StandardPage";
 import ThankyouPage from "./components/Thankyou/ThankyouPage";
 import Wishlist from "./components/Wishlist/Wishlist";
-import PaymentPage from "./components/Payment/PaymentPage";
+import ConfirmationPage from "./components/Confirmation/ConfirmationPage";
 import ApartmentDetails from "./components/ApartmentDetails/ApartmentDetails";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
         <Route path="/standard" element={<StandardPage/>}/>
         <Route path="/thankyou" element={<ThankyouPage/>}/>
         <Route path="/wishlist" element={<Wishlist/>}/>
-        <Route path="/payment" element={<PaymentPage/>}/>
+        <Route path="/confirmation" element={<ConfirmationPage/>}/>
         <Route path="/details" element={<ApartmentDetails/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>

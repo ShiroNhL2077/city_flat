@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/footer";
 import CarouselPage from "../../utils/Carousel";
@@ -182,17 +182,26 @@ function ApartmentDetails() {
             <div className="reservation_details_content">
               <div className="row  dates_reservation">
                 <div className="col-6  check-in">
-                <div className="p-3">
+                  <div className="p-3">
                     {" "}
                     <p>Check-in</p>
-                    <p>21/03/2021</p>
+                    <p className="headerSearchText">{`${format(
+                      date[0].startDate,
+                      "dd/MM/yyyy"
+                    )}`}</p>
                   </div>
                 </div>
                 <div className="col-6 check-out">
                   <div className="p-3">
                     {" "}
                     <p>Check-out</p>
-                    <p>27/03/2021</p>
+                    <p>
+                      {" "}
+                      <p className="headerSearchText">{`${format(
+                        date[0].endDate,
+                        "dd/MM/yyyy"
+                      )}`}</p>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -202,7 +211,11 @@ function ApartmentDetails() {
                 <p>Total price :€1200</p>
               </div>
               <div className="row custom-button-reservation-row">
-                <button className="btn btn-dark custom-button-reservation">Reserve</button>
+                <a href="/confirmation">
+                  <button className="btn btn-dark custom-button-reservation">
+                    RESERVE
+                  </button>
+                </a>
               </div>
             </div>
           </div>
