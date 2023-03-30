@@ -1,5 +1,6 @@
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -11,12 +12,13 @@ function LuxuriousCollection() {
 
   const [apartments, setApartments] = useState([]);
 
+
   useEffect(() => {
     axios
       .get("http://localhost:9090/appartments/getAllAppart")
       .then((result) => {
         setApartments(result.data);
-        console.log();
+        console.log(result.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -37,11 +39,13 @@ function LuxuriousCollection() {
                     {" "}
                     <div className="card">
                       <div className="card_img">
-                        <img
-                          src="./luxury-apartments.png"
-                          className="card-img-top"
-                          alt="..."
-                        />
+                      <Link to={`/details/${data.id}`}>
+                          <img
+                            src="./luxury-apartments.png"
+                            className="card-img-top"
+                            alt="..."
+                          />
+                        </Link>
                       </div>
                       <div className="card_body">
                         <div className="like_button_luxury">

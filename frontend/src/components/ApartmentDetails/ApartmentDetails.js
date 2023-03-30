@@ -1,20 +1,85 @@
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/footer";
 import CarouselPage from "../../utils/Carousel";
 import Rate from "../Rate/Rate";
 import "./ApartmentDetails.css";
-
-import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { format } from "date-fns";
+import "react-multiple-select-dropdown-lite/dist/index.css";
 
+import { DateRange } from "react-date-range";
+import { format } from "date-fns";
 import { MapContainer, TileLayer, useMap, Popup, Marker } from "react-leaflet";
 import L from "leaflet";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import MultiSelect from "react-multiple-select-dropdown-lite";
 
 function ApartmentDetails() {
   const [rating, setRating] = useState(0);
+
+  /*
+   * GETTING ID from the URL
+   */
+
+  let params = useParams();
+
+  const [apartment, setApartment] = useState(null);
+  const [service, setService] = useState([]);
+
+  /**AXIOS REQUESTS */
+  useEffect(() => {
+    axios
+      .get(`http://localhost:9090/user/appartments/${params.id}`)
+      .then((response) => {
+        setApartment(response.data);
+        console.log(response.data);
+        localStorage.setItem("apartment", JSON.stringify(response.data));
+
+        const servicePromises = response.data.services.map((el) => {
+          return axios
+            .get(`http://localhost:9090/user/services/${el}`)
+            .then((response) => {
+              return response.data;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+        Promise.all(servicePromises).then((res) => {
+          setService(res);
+          console.log(res);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [params.id]);
+
+  /*
+   * SELECT SERVICES
+   */
+
+  const [value, setvalue] = useState("");
+  const handleOnchange = (val) => {
+    setvalue(val);
+    console.log(val);
+  };
+
+  /**SERVICES OF THE APARTMENT */
+  const options = service.map((service) => {
+    return {
+      label: service.name,
+      value: service.id,
+    };
+  });
+
+  /*
+   *DATE
+   */
+
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -23,206 +88,196 @@ function ApartmentDetails() {
     },
   ]);
 
+  /**EXTRACT SERVICES PRICES */
+  const valueStr = value.split(",").map(String);
+  const totalPricePerNight = valueStr.reduce((acc, curr) => {
+    const servicePrice = service.find((s) => s.id === curr);
+    if (servicePrice) {
+      return acc + servicePrice.pricePerNight;
+    }
+    return acc;
+  }, 0);
+  localStorage.setItem("servicesPrice", JSON.stringify(totalPricePerNight));
+
+  /**EXTRACT NAMES FROM SERVICES*/
+  const valueStrNames = value.split(",").map(String);
+  const serviceNames = valueStrNames.reduce((acc, curr) => {
+    const serviceName = service.find((s) => s.id === curr);
+    if (serviceName) {
+      return [...acc, serviceName.name];
+    }
+    return acc;
+  }, []);
+  localStorage.setItem("serviceNames", JSON.stringify(serviceNames));
+
+
+  /**CALCULATE THE DIFFRENCE BETWEEN 2 DATES */
+  const startDate = date[0].startDate;
+  const endDate = date[0].endDate;
+  const diffInTime = endDate.getTime() - startDate.getTime();
+  const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+  /**APARTMENT PRICE */
+  const apartmentPrice = apartment && apartment.pricePerNight * diffInDays;
+  localStorage.setItem("apartmentPrice", JSON.stringify(apartmentPrice));
+
+  /** THE TOTAL PRICE OF THE STAY */
+  const totalPrice = apartmentPrice + totalPricePerNight;
+  localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
+
+  /**STORING THE DATES LOCALLY */
+  localStorage.setItem("startDate", JSON.stringify(startDate));
+  localStorage.setItem("endDate", JSON.stringify(endDate));
+
+
+
+  /*
+   *RENDERING COMPONENT
+   */
+
   return (
-    <div className="apartment_details">
-      <Navbar />
-      <div className="apartment_details_content">
-        <div className="upper__space"></div>
-        {/** Apartment Details */}
+    <>
+      {apartment && (
+        <div className="apartment_details">
+          <Navbar />
+          <div className="apartment_details_content">
+            <div className="upper__space"></div>
+            {/** Apartment Details */}
 
-        <div className="row">
-          <div className="details__app">
-            <div className="app_carousel">
-              <CarouselPage />
-            </div>
-            <div className="app_details">
-              <div className="row all__details">
-                <div className="app_title">
-                  <h1>APARTMENT NAME</h1>
-                  <h5>144 Street dusseldorf, Germany</h5>
-                  <Rate rating={rating} onRating={(rate) => setRating(rate)} />
+            <div className="row">
+              <div className="details__app">
+                <div className="app_carousel">
+                  <CarouselPage />
+                </div>
+                <div className="app_details">
+                  <div>
+                    <div className="row all__details">
+                      <div className="app_title">
+                        <h1>{apartment.name}</h1>
+                        <h5>{apartment.location}</h5>
+                        <Rate
+                          rating={rating}
+                          onRating={(rate) => setRating(rate)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="row app_description">
+                      <p>{apartment.description}</p>
+                    </div>
+
+                    <div className="row">
+                      <div className="col"></div>
+                      <div className="col justify-content-end">
+                        <button
+                          type="button"
+                          className="btn btn-light custom-button "
+                        >
+                          Show reviews
+                        </button>
+                      </div>
+                    </div>
+                    <div className="services_details">
+                      <div className="row" style={{ padding: "2%" }}>
+                        <strong>Choose your services:</strong>
+                      </div>
+
+                      <div className="services_selection">
+                        <MultiSelect
+                          onChange={handleOnchange}
+                          options={options}
+                          placeholder="Choose Services"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div className="upper__space"></div>
+            {/** Map and Calendar */}
 
-              <div className="row app_description">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur tempor commodo molestie. Duis sit amet ipsum ligula.
-                  Sed sit amet ex mauris. Maecenas elit eros, sodales vitae
-                  accumsan ac, hendrerit vitae felis.
-                </p>
-              </div>
-
-              <div className="row">
-                <div className="col"></div>
-                <div className="col justify-content-end">
-                  <button
-                    type="button"
-                    className="btn btn-light custom-button "
+            <div className="row">
+              <div className="pick_reservation">
+                <div className="reservation__map">
+                  <MapContainer
+                    center={[51.2277, 6.7735]}
+                    zoom={13}
+                    scrollWheelZoom={false}
+                    tap={false}
+                    removeOutsideVisibleBounds={false}
                   >
-                    Show reviews
-                  </button>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[51.505, -0.09]}>
+                      <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                      </Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
+                <div className="date__range">
+                  <DateRange
+                    editableDateInputs={true}
+                    onChange={(item) => setDate([item.selection])}
+                    moveRangeOnFirstSelection={false}
+                    ranges={date}
+                    className="date"
+                    minDate={new Date()}
+                  />
                 </div>
               </div>
-              <div className="services_details">
-                <div className="row" style={{ padding: "2%" }}>
-                  <strong>Choose your services:</strong>
-                </div>
+            </div>
 
-                <div className="row">
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./cleaning.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Cleaning</p>
+            {/** Reservation details */}
+            <div className="upper__space"></div>
+            <div className="row ">
+              <div className="reservation_details">
+                <div className="reservation_details_content">
+                  <div className="row  dates_reservation">
+                    <div className="col-6  check-in">
+                      <div className="p-3">
+                        {" "}
+                        <p>Check-in</p>
+                        <strong>{`${format(
+                          date[0].startDate,
+                          "dd/MM/yyyy"
+                        )}`}</strong>
+                      </div>
+                    </div>
+                    <div className="col-6 check-out">
+                      <div className="p-3">
+                        {" "}
+                        <p>Check-out</p>
+                        <strong>{`${format(
+                          date[0].endDate,
+                          "dd/MM/yyyy"
+                        )}`}</strong>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./maintenance.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Maintenance</p>
+                  <div className="row details_row">
+                    <p>Night Fees :€{apartmentPrice}</p>
+                    <p>Services Fees :€{totalPricePerNight}</p>
+                    <p>Total price :€{totalPrice}</p>
                   </div>
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./utilities.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Utilities</p>
-                  </div>
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./washing.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Laundry</p>
-                  </div>
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./parking.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Parking</p>
-                  </div>
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./food.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Food</p>
-                  </div>
-                  <div className="col">
-                    <img
-                      alt="service parking"
-                      src="./car.jpg"
-                      className="service_img"
-                    />
-                    <br />
-                    <p className="service_title">Car</p>
+                  <div className="row custom-button-reservation-row">
+                    <a href="/confirmation">
+                      <button className="btn btn-dark custom-button-reservation">
+                        RESERVE
+                      </button>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <div className="upper__space"></div>
-        {/** Map and Calendar */}
-
-        <div className="row">
-          <div className="pick_reservation">
-            <div className="reservation__map">
-              <MapContainer
-                center={[51.2277, 6.7735]}
-                zoom={13}
-                scrollWheelZoom={false}
-                tap={false}
-                removeOutsideVisibleBounds={false}
-              >
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={[51.505, -0.09]}>
-                  <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                  </Popup>
-                </Marker>
-              </MapContainer>
-            </div>
-            <div className="date__range">
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => setDate([item.selection])}
-                moveRangeOnFirstSelection={false}
-                ranges={date}
-                className="date"
-                minDate={new Date()}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/** Reservation details */}
-        <div className="upper__space"></div>
-        <div className="row ">
-          <div className="reservation_details">
-            <div className="reservation_details_content">
-              <div className="row  dates_reservation">
-                <div className="col-6  check-in">
-                  <div className="p-3">
-                    {" "}
-                    <p>Check-in</p>
-                    <p className="headerSearchText">{`${format(
-                      date[0].startDate,
-                      "dd/MM/yyyy"
-                    )}`}</p>
-                  </div>
-                </div>
-                <div className="col-6 check-out">
-                  <div className="p-3">
-                    {" "}
-                    <p>Check-out</p>
-                    <p>
-                      {" "}
-                      <p className="headerSearchText">{`${format(
-                        date[0].endDate,
-                        "dd/MM/yyyy"
-                      )}`}</p>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="row details_row">
-                <p>Night Fees :€120</p>
-                <p>Services Fees :€60</p>
-                <p>Total price :€1200</p>
-              </div>
-              <div className="row custom-button-reservation-row">
-                <a href="/confirmation">
-                  <button className="btn btn-dark custom-button-reservation">
-                    RESERVE
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </div>
+      )}
+    </>
   );
 }
 

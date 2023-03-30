@@ -31,7 +31,7 @@ function App() {
         <Route path="/thankyou" element={<ThankyouPage/>}/>
         <Route path="/wishlist" element={<Wishlist/>}/>
         <Route path="/confirmation" element={<ConfirmationPage/>}/>
-        <Route path="/details" element={<ApartmentDetails/>}/>
+        <Route path="/details/:id" element={<ApartmentDetails/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
       </Routes>

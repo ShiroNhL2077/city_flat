@@ -120,11 +120,12 @@ export function httpCreateOrder(req, res) {
          const appartment = req.body.Order.appartment;
          newOrder.User = foundUser;
 
-         appartmentDb.findOne({ name: appartment.name })
+         appartmentDb.findOne({ id: appartment.id })
             .then((foundAppartment) => {
                if (!foundAppartment) {
                   return res.status(404).json({ message: 'Appartment not found!' });
                }
+
 
                newOrder.appartment = foundAppartment;
               ///newOrder.code = generateRandomCode(6);
