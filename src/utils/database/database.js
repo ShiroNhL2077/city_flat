@@ -14,7 +14,7 @@ mongoose.Promise = global.Promise;
 /* Connecting to database */
 async function connectDatabase() {
    await mongoose
-      .connect(`${DB_URL}${DB_NAME}`)
+      .connect(`${DB_URL}`)
       .then(() => {
          console.log(`Connected [${DB_NAME}]`);
       })
@@ -26,7 +26,7 @@ async function connectDatabase() {
 /* Disconnecting database */
 async function disconnectDatabase() {
    await mongoose
-      .disconnect(`${DB_URL}${DB_NAME}`)
+      .disconnect(`${DB_URL}`)
       .then(() => {
          console.log(`Disconnected [${DB_NAME}]`);
       })

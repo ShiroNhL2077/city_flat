@@ -2,11 +2,14 @@ import http from 'http';
 import app from './src/app.js';
 import dotenv from 'dotenv';
 import multer from 'multer';
+import stripe from "stripe";
 /* Imports from project modules */
 import {
    connectDatabase,
    disconnectDatabase,
 } from './src/utils/database/database.js';
+
+
 
 /* Accessing .env content */
 dotenv.config();
@@ -25,5 +28,17 @@ const server = http.createServer(app);
 server.listen(port, () => {
    console.log(`Listening [http://${hostname}:${port}]...`);
 });
+
+const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
+
+app.post("/api/payment-intent", async (req, res) => {
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 66000,
+    currency: "eur",
+  });
+
+  res.json({ clientSecret: paymentIntent.client_secret });
+});
+
 
 

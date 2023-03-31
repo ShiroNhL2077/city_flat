@@ -1,11 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/footer";
 import Rate from "../Rate/Rate";
 import "./ConfirmationPage.css";
+import { loadStripe } from "@stripe/stripe-js";
+import { useStripe } from "@stripe/react-stripe-js";
+
+
+const stripePromise = loadStripe(
+  "pk_test_51Mo7T4CVJIsh8jvhT4XERDGMYNJjV3zpKsnVxpD79NGbrGT2337sDSuengg06jYxuRwvMShAg91ih2ziOUUKJD6000ci0xZXRW"
+);
 
 function PaymentPage() {
   const [rating, setRating] = useState(0);
+  const handleToken = (token) => {
+    // You can use the token to process the payment on the server-side
+    console.log(token);
+  };
+
+  const [clientSecret, setClientSecret] = useState("");
+
+  useEffect(() => {
+    createPaymentIntent().then((secret) => {
+      setClientSecret(secret);
+    });
+  }, []);
+
+  const stripe = useStripe();
+  const handleClick = async (event) => {
+    // Call your backend to create a Checkout Session
+    const response = await fetch("/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: ["sku_123"] }), // replace with your own SKU, plan, or price IDs
+    });
+
+    const session = await response.json();
+
+    // Redirect to Checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+      lineItems: [
+        {
+          price: "price_123",
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      successUrl: "https://example.com/success",
+      cancelUrl: "https://example.com/cancel",
+    });
+
+    if (result.error) {
+      console.log(result.error.message);
+    }
+  };
+
+const createPaymentIntent = async () => {
+  const response = await fetch("/api/payment-intent", { method: "POST" });
+  const { clientSecret } = await response.json();
+  return clientSecret;
+};
 
   return (
     <div className="payment_page">
@@ -79,14 +136,25 @@ function PaymentPage() {
                   <p>Nights fee: €600</p>
                   <p>Services fee: €60</p>
                   <p>Total price: €660</p>
-                  <button className="btn btn-dark custom-confirm-button" >CONFIRM & PAY</button>
-                  <a href="/"><button type="reset" className="btn btn-dark custom-confirm-button" >CANCEL</button></a>
+                  <a href="/">
+                    <button
+                      type="reset"
+                      className="btn btn-dark custom-confirm-button"
+                    >
+                      CANCEL
+                    </button>
+                  </a>
+                  <button
+                    className="btn btn-dark custom-confirm-button"
+                    onClick={handleClick}
+                  >
+                    CONFIRM & PAY
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
- 
       </div>
       <Footer />
     </div>
